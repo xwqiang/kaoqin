@@ -1,0 +1,118 @@
+@charset "utf-8";
+/* CSS Document */
+/* 清楚浮动 */
+.fn-clear:after { 
+ visibility:hidden; 
+ display:block; 
+ font-size:0; 
+ content:" "; 
+ clear:both; 
+ height:0; 
+} 
+.fn-clear { 
+ zoom:1; 
+} 
+.color-b{ color:#2C82D9;}
+h4{ font-size:14px;}
+
+html,body{  font:normal 12px/1.7  Tahoma, Arial, "宋体", "黑体"  }
+#Container{ position:relative; width:100%; min-width:990px; margin:0 auto; text-align:left; color:#666;}
+a{color:#2C82D9;}
+a:hover{ text-decoration:none;}
+/* 账户基本信息
+*/
+.grid-basic{ width:100%; margin:15px 0;}
+.grid-basic-content{ border:1px solid #ccc; background:url(../images/bill/bill_head_bg.gif) repeat-x left top; height:100px;}
+.user-account{ float:left; width:400px; height:62px; padding:20px 0 0 26px; overflow:hidden; background:url(../images/bill/bill_bg.gif) no-repeat 100% 20px;}
+.user-account-info h4{ font-size:14px; margin-bottom:5px;}
+.user-assets{ float:left; width:200px; height:62px; padding:20px 0 0 40px;background:url(../images/bill/bill_bg.gif) no-repeat 100% 20px;}
+span.number{ font-size:28px; height:30px; line-height:30px;}
+.user-other{ float:left; padding:20px 20px 0 20px; width:256px;}
+/* 标签导航
+*/
+.grid-nav{ margin-bottom:15px;}
+.grid-nav-cont{ background:url(../images/bill/bill_nav_bg.gif) repeat-x left top; height:35px; overflow:hidden;}
+.grid-nav-cont ul{ margin:0 15px; height:32px; padding-top:3px;}
+.grid-nav-cont ul li{ float:left; margin-right:8px; display:inline;}
+.grid-nav-cont ul li a{ display:block; width:82px; height:32px; text-align:center; font:bold 14px/32px "宋体"; color:#FFF;}
+.grid-nav-cont ul li a:hover{ background:#88CBFD; text-decoration:none;}
+.grid-nav-cont ul li a.nav-active{ background:url(../images/bill/bill_bg.gif) no-repeat 0 -88px; color:#505050;}
+/* 搜索部分
+*/
+.grid-form{ margin-bottom:6px; border-top:3px solid #D9D9D9; border-bottom:1px solid #D9D9D9;background:#FAFAFA;}
+.grid-form form{ margin:0; padding:0;}
+.grid-form-item{ padding:10px;}
+.grid-form-business{ background:#FCFCFC; border-top:1px dashed #CCC;}
+.grid-form-label{text-align: right;
+	font-weight: bold;
+	vertical-align: top;
+	line-height: 26px;
+	height: 26px;
+	float:left;
+}
+.grid-form-content{ float:left;text-align:left;}
+
+.grid-form-content input{ background:url(../images/inp-bg.gif) repeat-x left top; height:24px; line-height:24px; border:1px solid #CCC;}
+.grid-form-content span{ margin-right:10px; height:26px; line-height:26px;}
+.grid-form-content span a{ padding:4px; white-space:nowrap;}
+.grid-form-content span a:hover{ background:#cfeaff;}
+.grid-form-content span a.form-active{ background:#2C82D9; color:#FFF;}
+.submit-cont{ float:left; margin-left:20px; height:26px;}
+input.grid-button{ border:none; background:url(../images/bill/bill_bg.gif) no-repeat 0 -62px; width:60px; height:26px; line-height:26px; cursor:pointer;}
+.form-links{ float:left; height:26px; line-height:26px; margin-left:20px;}
+.form-links a.link-down{ background:url(../images/bill/bill_bg.gif) no-repeat -82px -62px; padding-left:15px;}
+/* 数据
+*/
+.grid-data{ margin-bottom:10px; width:100%;}
+.grid-data table{ border:1px solid #D9D9D9; border-bottom:none;}
+.grid-data table th, .grid-data table td{ border-bottom:1px solid #D9D9D9; padding:4px 10px;}
+.grid-data table th{ font-weight:normal;text-align:left; background:#FAFAFA;}
+.grid-data th.amount, .grid-data td.amount{ text-align:right;}
+.grid-data td.amount{ font-weight:bold; color:#2C82D7;}
+.tbl-pages{ height:30px; line-height:30px; padding-top:15px; text-align:center;}
+.tbl-pages span{ padding:0 5px;}
+
+/* 下拉操作菜单
+*/
+.nicemenu { display:inline; position:relative; height:auto; background:#FFF;}
+.nicemenu span { position:relative; padding:4px 4px 4px 6px;  border-bottom:none; line-height:18px; background:#FFF; z-index:2;}
+.nicemenu span a { font-weight:bold; padding:0 6px 0px 2px; }
+.nicemenu span img{ padding-top:1px;}
+.nicemenu span.over { padding:4px 4px 4px 6px;}
+*+html .nicemenu span.over {  border-top:solid 2px #ccc; padding-bottom:3px; } /* IE6 */
+.nicemenu span.active { padding:4px 3px 2px 5px;  border-top:solid 1px #ccc; border-left:solid 1px #ccc;  border-right:solid 1px #999999;}
+*+html .nicemenu span.active {  border-top:solid 2px #ccc; padding-bottom:3px; }
+.nicemenu img.arrow { /*margin-left:4px;*/ cursor:pointer; }
+.nicemenu div.sub_menu { display:none; position:absolute; left:0; top:0px; margin-top:16px;
+	border-left:solid 1px #ccc; border-right:solid 1px #999999; border-bottom:solid 1px #999999;
+	top:0;
+	width:60px; background:#FFF; z-index:5;}
+* html .nicemenu div.sub_menu { margin-top:21px; } /* IE6 */
+*+html .nicemenu div.sub_menu { margin-top:21px; } /* IE7 */
+.nicemenu div.sub_menu a:link, 
+.nicemenu div.sub_menu a:visited, 
+.nicemenu div.sub_menu a:hover{ display:block; padding:2px 4px;}
+.nicemenu div.sub_menu a:hover{ background:#def1ff;}
+
+/** 选中条件 **/
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.clearfix { display: inline-block; }
+.divSmall{ color:#FFF; background:#379AFF;}
+.divSmall2 {
+width: auto;
+height: 20px;
+float: left;
+margin-left: 4px;
+margin-top: 2px;
+padding:0 3px;
+line-height: 20px;
+background:#444; color:#FFF;
+}
+.divSmall2 a{ color:#CF6; padding-left:5px; font-size:12px; font-weight:bold;}

@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,h1,h2,h3,h4,h5,h6,ul,li,p,dl,dt,dd,form{ margin:0; padding:0;}
+ul, ol, li{ list-style:none;}
+.clear{ clear:both;}
+
+html,body{ background:#C8E2F0 url(../images/login-bg-new.gif) repeat-x top left; text-align:center; font-family:"宋体"; font-size:12px; height:100%; overflow:hidden;}
+.cont-bg{ background:url(../images/login-bg1-new.gif) no-repeat top center; height:100%;}
+.h188{ height:140px;}
+.h90{ height:85px;}
+#container{ margin:0 auto; width:403px; height:319px; background:url(../images/login-cont-bg-new.png) no-repeat left top; text-align:left;}
+
+.border-radius{ margin:2px 0 2px 68px; width:276px; height:36px; overflow:hidden; line-height:36px; border:1px solid #5396d9; background:#FFF;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+　　 border-radius: 6px;
+	text-align:left;
+	position:relative;
+	z-index:2;
+	behavior: url(ie-css3.htc);
+}
+.border-radius label{ margin:0 5px 0 12px; color:#666; padding-left:24px; display:inline-block; height:34px; line-height:32px;}
+label.l-user{ background:url(../images/login-user.gif) no-repeat left center;}
+label.l-psd{ background:url(../images/login-psd.gif) no-repeat left center;}
+.border-radius input{ border:none; width:193px; height:31px; margin-top:2px; line-height:30px;}
+.border-code{ width:150px; float:left; display:inline; overflow:hidden; margin-top:8px;}
+.border-radius .l-ipt-code{ width:67px;}
+.code{ width:115px; height:30px; background:#FFF; float:left; margin:12px 0 0 7px; overflow:hidden;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	text-align:center;
+}
+.code img{ width:130px; height:30px;}
+
+.l-btn{ margin:5px 0 0 142px;}
+.l-btn input{ margin:0 10px; width:87px; height:35px; border:none;}
+.l-btn .ipt-submit{ background:url(../images/login-dl-new.gif) no-repeat left center;}
+.l-btn .ipt-reset{ background:url(../images/login-cz-new.gif) no-repeat left center;}
+
+.login-txt{ text-align:right; margin:8px 60px 0;}
+.login-txt a{ color:#999; text-decoration:none;}
+.login-txt a:hover{ color:#666; text-decoration:underline;}
+.login-cb{ margin:8px 70px 0; color:#666;}
+.login-cb .input-check{ vertical-align:middle; margin-top:-2px; margin-bottom:1px;}
+
+/***** RetakePassword *****/
+img{ border:none;}
+.header{ width:800px; margin:0 auto; margin-top:60px; text-align:left;}
+.header h1{ float:left;}
+.header_right{ float:right; font-size:14px;}
+.header_right p{ margin:20px 10px 0 0;}  .header_right a{ color:#FFF; text-decoration:none;}
+.header_right a:hover{ text-decoration:underline;}
+.rp_main{ border:2px solid #ddd; padding:20px; width:760px; margin:0 auto; text-align:left; color:#333;}
+.main_con1{ font-size:14px; margin-bottom:40px;}
+.main_con1 p{ float:left; line-height:28px; font-weight:bold;color:#FFF;}
+.main_con1 ul{ float:left; margin-left:30px; background:url(../images/m_step.png) no-repeat left top; width:500px; height:28px;}
+.main_con1 ul.m_step2{background:url(../images/m_step.png) no-repeat 0 -30px;}
+.main_con1 ul li{ float:left; line-height:28px; width:240px; text-align:center;}
+.main_con1 ul li.active{ color:#FFF; font-weight:bold;}
+
+.main_con2{ margin:0 0 40px 160px;}
+.main_form li { padding: 6px 0; clear: left; line-height: 200%;}
+.fm_left {float: left; text-align: right; padding-right: 10px; width: 130px; color:#FFF;}
+.fm_right { margin-left:140px; text-align:left;}
+.input{
+width: 221px;
+height: 19px;
+border: 1px solid #C4C4C4;
+padding: 3px 0 0 3px;
+background: #F9F9F9;
+}
+.info{ color:#666;}
+.info a{ color:#03F; text-decoration:none;}
+.r_btn{ padding:3px 8px; color:#333; margin-top:10px;}
+.main_con2 h3{ font-size:14px; font-weight:normal; color:#FFF;}
