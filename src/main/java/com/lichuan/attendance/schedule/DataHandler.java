@@ -11,11 +11,11 @@ import com.lichuan.attendance.service.SalaryService;
 
 /**
  *
- * Description:缓存审核模块  
+ * Description:定时计算考勤结果
  *
  * @author lichuan<lichuan3992413@gmail.com>
  *
- * Create at:   2011-7-28 上午09:50:10 
+ * Create at:   2013-9-28 上午09:50:10 
  */
 public class DataHandler {
 
@@ -33,7 +33,8 @@ public class DataHandler {
 		String every_month = formatter.format(Calendar.getInstance().getTime());
 		
 		System.out.println("开始初始化 "+every_month+" 数据!");
-        salaryService.init(every_month);
+        
+		salaryService.init(every_month);
 		
 		System.out.println(every_month+" 初始化完成");
     }
