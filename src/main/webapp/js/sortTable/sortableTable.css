@@ -1,0 +1,28 @@
+
+
+/**************************************************************
+
+	Sortable Table
+	v 1.4
+
+**************************************************************/
+/**
+th {
+	background: url(images/icon-table-sort.png) ;
+}
+
+.sortedASC {
+	background: url(images/icon-table-sort-asc.png) ;
+}
+
+.sortedDESC {
+	background: url(images/icon-table-sort-desc.png) ;
+}
+*/
+.tableHeaderOver {
+	cursor: pointer;
+	color: #354158;
+}
+
+
+

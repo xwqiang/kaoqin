@@ -1,0 +1,17 @@
+	.nicemenu a { color:#0066CC; }
+	.nicemenu { display:inline; position:relative; height:auto; background:#FFF;}
+	.nicemenu span { position:relative; padding:4px 4px 4px 6px;  border-bottom:none; line-height:18px; background:#FFF; z-index:2;}
+	.nicemenu span a { font-weight:bold; padding:0 6px 0px 2px;  }	
+	.nicemenu span.over { padding:4px 3px 4px 5px;  border-top:solid 1px #ccc; border-left:solid 1px #ccc;  border-right:solid 1px #999999; border-bottom:solid 1px #fff;  }
+	*+html .nicemenu span.over {  border-top:solid 2px #ccc; padding-bottom:3px; } /* IE6 */
+	.nicemenu span.active { padding:4px 3px 4px 5px;  border-top:solid 1px #ccc; border-left:solid 1px #ccc;  border-right:solid 1px #999999; border-bottom:solid 1px #fff;}
+	*+html .nicemenu span.active {  border-top:solid 2px #ccc; padding-bottom:3px; }
+	.nicemenu span.active a { }
+	.nicemenu span.active a:hover { text-decoration:none; }	
+	.nicemenu img.arrow { /*margin-left:4px;*/ cursor:pointer; }
+	.nicemenu div.sub_menu { display:none; position:absolute; left:0; top:0px; margin-top:16px; border-top:solid 1px #E5E5E5; border-left:solid 1px #ccc; border-right:solid 1px #999999; border-bottom:solid 1px #999999; padding:4px; top:2px; width:90px; background:#FFFFFF; z-index:5;}
+	* html .nicemenu div.sub_menu { margin-top:21px; } /* IE6 */
+	*+html .nicemenu div.sub_menu { margin-top:21px; } /* IE7 */
+	.nicemenu div.sub_menu a:link, 
+	.nicemenu div.sub_menu a:visited, 
+	.nicemenu div.sub_menu a:hover{ display:block;padding:4px;}

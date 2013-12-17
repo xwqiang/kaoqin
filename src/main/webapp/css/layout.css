@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+.easyui-layout{ background:#E9E9E9;}
+.cs-west {
+	width:192px;
+	left:5px;
+	border:1px solid #84BAF1;
+}
+.layout-split-west{ position:absolute; left:5px; top:5px;}
+/* 二级菜单样式 */
+.panel .accordion-body{ padding:5px 0;}
+.panel .accordion-body p{
+	height:30px; line-height:30px;
+	border-bottom:1px dashed #CCC;
+	margin:0 5px 0 15px;
+	position:relative;
+	z-index:10
+}
+.cs-navi-tab {
+	background:url(../images/layout/navi-tab.gif) no-repeat left center; padding-left:24px;
+}
+a.cs-navi-tab:hover{
+	font-weight:bold;
+	text-decoration:none;
+}
+
+/* 二级栏目icon图 */
+.easyui-accordion .panel-header{ padding-left:13px;}
+.easyui-accordion .panel .panel-header .panel-title{background:url(../images/layout/page.gif) no-repeat left center; padding-left:25px;}
+/*.accordion-body{ position:relative;} 
+*/
+
+/* mainPanle
+*/
+#mainPanle{ padding:0 5px;}
+.cs-tab-menu {
+	width:120px;
+}
+
+.cs-home-remark{ text-align:left;}
+.cs-home-remark h2{ font:normal 22px/1.7 "微软雅黑"; border-bottom:2px solid #6caedd;}
+.cs-home-remark h3{ color:#444; font-size:16px; margin:10px 0 5px 10px;}
+.cs-home-remark li{ border-bottom:1px dashed #ccc; padding:4px 10px; font-size:13px; line-height:1.5; color:#444;}
+.t1 {background:#FFFFFF;}  
+.t2 {background:#F4F9FC;}  
+.up {background:#FEFAE2;} 
+p.txt-right{ text-align:right; height:40px; line-height:40px; padding-right:40px;}

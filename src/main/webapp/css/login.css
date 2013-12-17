@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{ margin:0; padding:0; border:0;}
+ul, ol, li{ list-style:none;}
+.clear{ clear:both;}
+
+html,body{ background:#3683C9 url(../images/login-bg.gif) no-repeat top center; text-align:center; font-family:"宋体"; font-size:12px;}
+.h190{ height:190px;}
+#container{ margin:0 auto; width:421px; height:306px; background:url(../images/login-cont-bg.png) no-repeat left top; text-align:left;}
+#container h1{ text-align:center;}
+#container h1 img{ margin:40px 0 18px;}
+
+.border-radius{ margin:0 0 5px 74px; width:276px; height:36px; line-height:36px; border:1px solid #5396d9; background:#FFF;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+　　 border-radius: 6px;
+	text-align:left;
+	position:relative;
+	z-index:2;
+	behavior: url(ie-css3.htc);
+}
+.border-radius label{ margin:0 10px 0 12px; color:#666; padding-left:24px; display:inline-block; height:34px; line-height:32px;}
+label.l-user{ background:url(../images/login-user.gif) no-repeat left center;}
+label.l-psd{ background:url(../images/login-psd.gif) no-repeat left center;}
+.border-radius input{ width:185px; height:28px; margin-top:2px; line-height:28px;}
+.border-code{ width:155px; float:left; display:inline; overflow:hidden;}
+.border-radius .l-ipt-code{ width:65px;}
+.code{ width:115px; height:36px; background:#FFF; float:left; margin:0 0 0 5px; overflow:hidden;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	text-align:center;
+}
+.code img{ width:130px; height:30px; margin:2px 0;}
+
+.l-btn{ margin:18px 0 0 142px;}
+.l-btn input{ margin:0 10px; width:87px; height:35px;}
+.l-btn .ipt-submit{ background:url(../images/login-dl.gif) no-repeat left center;}
+.l-btn .ipt-reset{ background:url(../images/login-cz.gif) no-repeat left center;}

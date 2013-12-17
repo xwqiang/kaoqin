@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+
+.collect_tbl{ border:1px solid #cfdce9; border-bottom:none; border-right:none;}
+.collect_tbl th, .collect_tbl td{ border:1px solid #cfdce9; border-top:none; border-left:none; color:#333;}
+.collect_tbl th{ text-align:center; padding:3px 0; color:#1E5791;}
+.collect_tbl th .fun{font-weight:normal; color:#666;}
+.collect_tbl tr.t_title{}
+.collect_tbl td{
+	padding:3px; font-family:Verdana, Geneva, sans-serif;
+}
+.collect_tbl th.t_tj, .collect_tbl td.t_tj{ background:#f1f4ff; text-align:right; color:#1E5791;}
+.collect_tbl th.t_cg, .collect_tbl td.t_cg{ text-align:right;}
+.collect_tbl th.t_db, .collect_tbl td.t_db{ background:#fff7d8; text-align:right; color:#9C6500;}
+.collect_tbl th.t_db, .collect_tbl td.t_wz{ text-align:right;}
+.collect_tbl .collect_item td{ border-top:2px solid #cfdce9;}
+.collect_tbl .collect_cell td{ background: #FFF1BA; color:#555;}

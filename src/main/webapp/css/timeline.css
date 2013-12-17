@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+
+#GameModuleTimeline { position: relative; width: 900px; margin: 0px auto; height: 220px; }
+#GameModuleTimeline h3 { font-size:12px; }
+#GameModuleTimeline h3 a { font-weight: bold; }
+#GameModuleTimeline h3 a:hover { color: #BA2636 }
+#GametimelineHandler { height: 60px; position: relative; background: url(../images/a.gif) repeat-x 0px 48px; }
+#GametimelineHandler li { display: inline; list-style: none; }
+#GametimelineHandler span { visibility: hidden; position: absolute; width:68px; height:22px; color: #FFF; line-height: 16px; text-align: center; background: url(../images/b.gif) no-repeat -58px 0px; }
+#GametimelineHandler b { display: inline-block; position: absolute; height: 18px; width: 18px; bottom: 0px; }
+#GameModuleTimelineContainer { height: 150px; overflow: hidden; position: relative; }
+#GameModuleTimelineContainer blockquote { text-indent:24px; line-height:21px; }
+#GameModuleTimelineContainer blockquote a { color: #BA2636; }
+#GameModuleTimelineContainer div {  color: #727171; position: absolute; top: 10px; visibility: hidden; border-radius: 5px; border: solid 1px #c5c5c5; padding:5px; overflow:hidden; background: #f8f8f8; width: 300px; height: 60px; -webkit-box-shadow:5px 2px 6px #ccc; -moz-box-shadow:5px 2px 6px #ccc; filter: progid:DXImageTransform.Microsoft.Shadow(color=gray, Direction=135, Strength=5); }
+.GametimelineOff , .GametimelineOn { background: url(../images/b.gif) no-repeat 0px 0px; }
+.GametimelineOn { background-position: -18px 0; }
+#GametimelinePointer { visibility:hidden; top:49px; position:absolute; display:inline-block; width:12px; height:8px; background:url(../images/b.gif) no-repeat -40px 0px; top:63px; }
