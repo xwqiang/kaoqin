@@ -48,23 +48,6 @@ public class SalaryController {
 
 	@SuppressWarnings("unused")
 
-	/**
-	 * 获取考勤记录
-	 * 
-	 * @param request
-	 * @param modelMap
-	 * @return
-	 */
-	@RequestMapping(value = "/getListByMonth.do")
-	public String getListByMonth(HttpServletRequest request, ModelMap modelMap) {
-
-		String everyMonth = request.getParameter("every_month");
-		List<Salary> list = salaryService.getListByMonth(everyMonth);
-		
-		modelMap.addAttribute("list", list);
-		return "salary/salary";
-
-	}
 	
 	/**
 	 * 获取个人考勤记录
@@ -580,24 +563,6 @@ public class SalaryController {
 		return null;
 
 	}
-	
-//	/**
-//	 * 获取打卡记录
-//	 * 
-//	 * @param request
-//	 * @param modelMap
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/getDetailListByMonth.do")
-//	public String getDetailListByMonth(HttpServletRequest request, ModelMap modelMap) {
-//		
-//		String user_name = request.getParameter("user_name");
-//		List<SalaryDetail> list = salaryService.getDetailListByName(user_name);
-//		
-//		modelMap.addAttribute("list", list);
-//		return "salary/salaryDetail";
-//		
-//	}
 	
 	/**
 	 * 初始化
