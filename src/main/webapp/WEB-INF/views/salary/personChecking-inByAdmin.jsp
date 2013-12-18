@@ -72,7 +72,7 @@
               	
 				$.ajax({
 				
-                  url:"/attendance/getPersonChecking-in	ByAdmin.do",
+                  url:"/kaoqin/getPersonChecking-in	ByAdmin.do",
                   type:"post",
                   data:params,
                   dataType: 'json',
@@ -477,7 +477,9 @@
     </div>
 		
 </div>
-
+<div>
+	<button><a href="">一件还原</a></button>
+</div>
 	
 
 	<div style="display:none">

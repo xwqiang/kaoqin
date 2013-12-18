@@ -32,7 +32,7 @@ public interface SalaryMapper {
 	
 	// 按照every_month,user_name进行查询记录
 //	@Select("SELECT sn,status,oa,user_name,id,every_date,every_month,type,comment,department,substring(checkin_time,12) as show_checkin_time,substring(checkout_time,12) as show_checkout_time FROM salary WHERE every_month = #{every_month} and user_name=#{user_name} order by department,user_name")
-	@Select("SELECT sn,status,oa,user_name,id,every_date,every_month,type,comment,department,substring(checkin_time,12) as show_checkin_time,substring(checkout_time,12) as show_checkout_time FROM salary WHERE  user_name=#{user_name} order by department,user_name")
+	@Select("SELECT sn,status,oa,user_name,id,every_date,every_month,type,comment,result,department,substring(checkin_time,12) as show_checkin_time,substring(checkout_time,12) as show_checkout_time FROM salary WHERE  user_name=#{user_name} order by department,user_name")
 	List<Salary> queryPersonSalary(Map<String,String> map);
 	
 	// 按照user_name查询个人打卡记录
@@ -75,11 +75,11 @@ public interface SalaryMapper {
 	@Update("update salary set comment=#{comment} WHERE oa=#{oa} and every_month=#{every_month} and every_date=#{every_date} and  user_name = #{user_name}")
 	void updateComment(Map<String,String> map);
 	
-	@Update("update salary set comment=#{comment} ,status=1 WHERE  oa=#{oa} and every_date>=#{start_date} and every_date<=#{end_date} ")
-	int updateComments(Map<String,String> map);
+	@Update("update salary set result=#{result} ,status=1 WHERE  oa=#{oa} and every_date>=#{start_date} and every_date<=#{end_date} ")
+	int updateResult(Map<String,String> map);
 	
-	@Insert("insert into salary values(null,#{id},#{every_date},null,null,#{every_month},null,#{comment},#{user_name} ,#{department},#{oa},1)")
-	int insertComment(Map<String,String> map);
+	@Insert("insert into salary values(null,#{id},#{every_date},null,null,#{every_month},null,#{comment},#{user_name} ,#{department},#{oa},1,#{result})")
+	int insertResult(Map<String,String> map);
 	
 	// 按照every_month,every_date,user_name查询个人日历记录
 	@Select("select * from person_calendar where every_date<#{every_date} and oa=#{oa} and every_month=#{every_month} and  type<=0 and every_date not in (select every_date from salary where every_month=#{every_month} and oa=#{oa} )")

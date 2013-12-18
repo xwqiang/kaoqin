@@ -293,9 +293,9 @@ public class SalaryController {
 					sb_comment.append("正常");
 				}
 				
-				salary.setComment(sb_comment.toString());
+				salary.setResult(sb_comment.toString());
 				
-				salaryService.updateComments(salary,click_day,click_day);
+				salaryService.updateResult(salary,click_day,click_day);
 				
 				/* RETURN VALUE */
 				String[] json = new String[4];

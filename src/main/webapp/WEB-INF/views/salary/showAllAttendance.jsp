@@ -19,10 +19,10 @@
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
 		<link rel='stylesheet' href='cupertino/theme.css' />
 		<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" media="screen" title="no title" charset="gbk" />
-		<script type="text/javascript" src="js/jquery/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/time/WdatePicker.js" defer="defer"></script>	
-		<script src="js/jquery/jquery.validationEngine-cn.js" type="text/javascript"></script>
-		<script src="js/jquery/jquery.validationEngine.js" type="text/javascript"></script>
+		<script src="jquery/jquery.validationEngine-cn.js" type="text/javascript"></script>
+		<script src="jquery/jquery.validationEngine.js" type="text/javascript"></script>
 		<script src="js/CJL.0.1.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/CJL.0.1.min.js"></script>
 		<script type="text/javascript" src="js/js/operamasks-ui.min.js"></script>

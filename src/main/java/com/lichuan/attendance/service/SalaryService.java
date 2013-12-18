@@ -76,7 +76,13 @@ public class SalaryService {
 		if(list!=null){
 			for(Salary each:list){
 				
-				String comment = each.getComment();
+				String comment = null;
+				if(each.getStatus()==0){
+					comment = each.getComment();
+				}else{
+					comment = each.getResult();
+					each.setComment(comment);
+				}
 
 				SimpleDateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
 				String current_date = formatterDate.format(Calendar.getInstance().getTime());
@@ -110,8 +116,6 @@ public class SalaryService {
 				}
 				if(comment!=null){
 		
-					int status = each.getStatus();
-					
 					if(comment.equals("迟到-免")||comment.equals("迟到-罚")){
 						each.setComment_type(1);
 					}else if(comment.contains("待处理")||comment.contains("早退")){
@@ -137,25 +141,26 @@ public class SalaryService {
 		salaryMapper.updateComment(map);
 	}
 	
-	public void updateComments(Salary salary,String start_date,String end_date){
+	public void updateResult(Salary salary,String start_date,String end_date){
 		
 		Map<String,String> map  = new HashMap<String, String>();
 	
 		map.put("oa", salary.getOa());
 		map.put("start_date", start_date);
 		map.put("end_date", end_date);
-		map.put("comment", salary.getComment());
+		map.put("comment", "无打卡记录");
+		map.put("result", salary.getResult());
 		
-		int result = salaryMapper.updateComments(map);
+		int result = salaryMapper.updateResult(map);
 		if(result==0){
 			AdminUser user = adminUserMapper.getInfoByEmp_id(salary.getOa());
-			map.put("id", user.getAdmin_id());
+			map.put("id", user.getCheck_id());
 			map.put("every_month", PatternTool.getMatch(start_date, "(\\d{4}-\\d{2})-\\d{2}.*",1));
 			map.put("every_date", start_date);
 			map.put("user_name", user.getAdmin_name());
 			map.put("department", user.getDepartment());
 			//插入操作
-			salaryMapper.insertComment(map);
+			salaryMapper.insertResult(map);
 		}
 		System.out.println(result);
 	}
