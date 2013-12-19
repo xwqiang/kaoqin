@@ -75,6 +75,16 @@ public interface SalaryMapper {
 	@Update("update salary set comment=#{comment} WHERE oa=#{oa} and every_month=#{every_month} and every_date=#{every_date} and  user_name = #{user_name}")
 	void updateComment(Map<String,String> map);
 	
+	//更新状态
+	@Update("delete from salary WHERE oa=#{oa} and every_month=#{every_month} and status=1 and checkin_time is null")
+	void deleteNUllRecord(Map<String,String> map);
+	
+	//删除无打卡记录
+	@Update("update salary set status=0 WHERE oa=#{oa} and every_month=#{every_month}")
+	void updateStatus(Map<String,String> map);
+	
+	
+	
 	@Update("update salary set result=#{result} ,status=1 WHERE  oa=#{oa} and every_date>=#{start_date} and every_date<=#{end_date} ")
 	int updateResult(Map<String,String> map);
 	

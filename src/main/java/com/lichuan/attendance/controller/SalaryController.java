@@ -581,5 +581,32 @@ public class SalaryController {
 		
 	}
 	
-	
+	/**
+	 * 一键恢复考勤数据，修改状态status=0
+	 * @param request
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping(value = "/restoreByOnekey.do")
+	public String restoreByOnekey(HttpServletRequest request, ModelMap modelMap,HttpServletResponse response) {
+		
+		String every_month = request.getParameter("every_month");
+		String oa = request.getParameter("oa");
+		String user_name = request.getParameter("user_name");
+		
+		if(every_month!=null&&oa!=null){
+
+			salaryService.restoreByOnekey(every_month, oa);
+			
+			request.setAttribute("oa", oa);
+			request.setAttribute("every_month", every_month);
+			request.setAttribute("user_name", user_name);
+			return getPersonSalaryByAdmin(request, modelMap, response);
+			
+		}else{
+			return null;
+		}
+		
+		
+	}
 }

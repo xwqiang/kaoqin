@@ -28,6 +28,21 @@ public class SalaryService {
 	@Autowired
 	private AdminUserMapper adminUserMapper;
 	
+	
+	/**
+	 * 根据oa，月份更新状态为0
+	 * @param every_month
+	 * @param oa
+	 */
+	public void restoreByOnekey(String every_month,String oa){
+		
+		Map<String,String> map  = new HashMap<String, String>();
+		map.put("oa", oa);
+		map.put("every_month", every_month);
+		//删除无打卡记录
+		salaryMapper.deleteNUllRecord(map);
+		salaryMapper.updateStatus(map);
+	}
 	/*********************************************
 	 *	根据指定月份获取考勤列表
 	 * @author Administrator<lichuan3992413@gmail.com>
@@ -328,7 +343,6 @@ public class SalaryService {
 		List<PersonStatistic> list = new ArrayList<PersonStatistic>();
 		if(adminUsers!=null){
 			
-			PersonStatistic all = new PersonStatistic();
 			for(AdminUser each:adminUsers){
 				String oa = each.getEmp_id();
 				PersonStatistic stat = getPersonStatistic(start_month,end_month, oa);

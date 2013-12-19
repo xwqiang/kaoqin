@@ -15,7 +15,8 @@
 	<head>	
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>个人日历</title>
-				<link type="text/css" rel="stylesheet" href="css/global.css" />
+		<link type="text/css" rel="stylesheet" href="css/global.css" />
+		<link type="text/css" rel="stylesheet" href="css/button.css" />
 		<link type="text/css" rel="stylesheet" href="css/fancybox.css" />
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/content.css" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
@@ -422,16 +423,6 @@
 			  		<dt>正常上班天数：</dt><dd>${entry.value} </dd>
             	
             	</c:if>
-           <dt>迟到超出次数</dt><dd>${statistic.map}</dd>
-            <dt>早退次数</dt><dd>0</dd>
-            <dt>忘打卡超出次数</dt><dd>0</dd>
-            <dt>外出</dt><dd>0</dd>
-            <dt>出差</dt><dd>0</dd>
-            <dt>调休</dt><dd>0</dd>
-            <dt>年假</dt><dd>0</dd>
-            <dt>婚假</dt><dd>0</dd>
-            <dt>产假</dt><dd>0</dd>
-            <dt>丧假</dt><dd>0</dd>
             <dt>旷工</dt><dd>0</dd>
             	<c:forEach items="${statistic.map}" var="entry">  
             		<c:if test="${entry.key=='迟到-罚'}">
@@ -474,13 +465,12 @@
             </c:if>
             <dt>饭补天数:</dt><dd>${statistic.fanbu_date_count }天</dd>
         </dl>        
+        <div class="c-operate">
+		    <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a href="restoreByOnekey.do?every_month=${every_month }&oa=${oa}&user_name=${user_name}">一键重置</a></span></p>
+		</div>
     </div>
 		
 </div>
-<div>
-	<button><a href="">一件还原</a></button>
-</div>
-	
 
 	<div style="display:none">
        <div id="inline" style="width:430px; height:350px; overflow:auto;text-align: left">

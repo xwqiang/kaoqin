@@ -16,6 +16,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>个人日历</title>
 		<link type="text/css" rel="stylesheet" href="css/global.css" />
+		<link type="text/css" rel="stylesheet" href="css/button.css" />
 		<link type="text/css" rel="stylesheet" href="css/fancybox.css" />
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/content.css" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
@@ -462,7 +463,11 @@
             
             </c:if>
             <dt>饭补天数:</dt><dd>${statistic.fanbu_date_count }天</dd>
-        </dl>        
+        </dl>      
+        
+          <div class="c-operate">
+	  	 <p><span class="c-button c-button-main" onClick="javascript:void(0);">确认考勤</span></p>
+		</div>
     </div>
 		
 </div>
