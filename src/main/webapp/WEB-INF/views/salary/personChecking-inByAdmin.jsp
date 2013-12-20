@@ -466,7 +466,7 @@
             <dt>饭补天数:</dt><dd>${statistic.fanbu_date_count }天</dd>
         </dl>        
         <div class="c-operate">
-		    <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a href="restoreByOnekey.do?every_month=${every_month }&oa=${oa}&user_name=${user_name}">一键重置</a></span></p>
+		    <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a title="清空 员工：${user_name} 时间：${every_month } 人资处理数据" href="restoreByOnekey.do?every_month=${every_month }&oa=${oa}&user_name=${user_name}">一键重置</a></span></p>
 		</div>
     </div>
 		

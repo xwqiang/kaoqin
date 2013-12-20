@@ -468,107 +468,21 @@ TableFixed.prototype = {
 								<td>
 									<a title="查看明细" href="getPersonChecking-inByAdmin.do?every_month=${every_month }&user_name=${statistic.user_name }">${statistic.oa }</a>
 								</td>
-								<td>
-									<c:if test="${statistic.office_date_count!=0}">
-									
-										${statistic.office_date_count}
-									</c:if>
-								</td>
-								<td>
-									<c:if test="${statistic.waichu_count!=0}">
-										${statistic.waichu_count}
-									</c:if>
-								</td>
-								<td>
-									<c:if test="${statistic.chuchai_count!=0}">
-										${statistic.chuchai_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.tiaoxiu_count!=0}">
-									${statistic.tiaoxiu_count}
-									</c:if>
-								</td>
-								<td>
-									<c:if test="${statistic.nianjia_count!=0}">
-									
-									${statistic.nianjia_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.hunjia_count!=0}">
-									${statistic.hunjia_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.chanjia_count!=0}">
-									${statistic.chanjia_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.sangjia_count!=0}">
-									${statistic.sangjia_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.kuanggong_count!=0}">
-									${statistic.kuanggong_count}
-									</c:if>
-								</td>
 								
-								<td>
-									<c:if test="${statistic.late_fine!=0}">
-									${statistic.late_fine}
-									</c:if>
-								</td>
-								<td>
-									
-								</td>
-								<td>
-									<c:if test="${statistic.forget_fine!=0}">
-										${statistic.forget_fine}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.real_working_date_count!=0}">
-									${statistic.real_working_date_count}
-									</c:if>
-								</td>
-								<td>
-									<c:if test="${statistic.shijia_count!=0}">
-										${statistic.shijia_count}
-									</c:if>
-								</td>
-								<td>
-									<c:if test="${statistic.bingjia_count!=0}">
-									${statistic.bingjia_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.fanbu_date_count!=0}">
-									${statistic.fanbu_date_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.workdate_overtime_count!=0}">
-									${statistic.workdate_overtime_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.overtime_count!=0}">
-									${statistic.overtime_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.holiday_overtime_count!=0}">
-									${statistic.holiday_overtime_count}
-									</c:if>
-								</td>
-								<td>
-								<c:if test="${statistic.undetermined_count!=0}">
-									<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-inByAdmin.do?every_month=${every_month }&user_name=${statistic.user_name }">${statistic.undetermined_count}</a>
-									</c:if>
-								</td>
+					            <c:forEach items="${statistic.map}" var="entry">  
+					            		<td>
+					            	<c:if test="${entry.value !=0}">
+					            	  <c:if test="${entry.key=='待处理'}">
+					            		<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-inByAdmin.do?every_month=${every_month }&user_name=${statistic.user_name }">${entry.value }</a>
+					            		</c:if>
+					            	
+						            	<c:if test="${entry.key!='待处理'}">
+						            		 ${entry.value }
+						            	</c:if>
+					            	   
+					            	</c:if>
+					            	</td>
+								</c:forEach>  
 						</tr>
 					</c:forEach>	
 					<!-- 			

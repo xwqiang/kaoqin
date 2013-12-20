@@ -464,10 +464,11 @@
             </c:if>
             <dt>饭补天数:</dt><dd>${statistic.fanbu_date_count }天</dd>
         </dl>      
-        
+        	<!-- 
           <div class="c-operate">
 	  	 <p><span class="c-button c-button-main" onClick="javascript:void(0);">确认考勤</span></p>
 		</div>
+		 -->
     </div>
 		
 </div>

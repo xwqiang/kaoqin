@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.lichuan.attendance.mapper.AdminUserMapper;
 import com.lichuan.attendance.mapper.SalaryMapper;
+import com.lichuan.attendance.mapper.StatisticInfoMapper;
 import com.lichuan.attendance.model.AdminUser;
 import com.lichuan.attendance.model.PersonCalendar;
 import com.lichuan.attendance.model.PersonStatistic;
@@ -27,6 +30,8 @@ public class SalaryService {
 	private SalaryMapper salaryMapper;
 	@Autowired
 	private AdminUserMapper adminUserMapper;
+	@Autowired
+	StatisticInfoMapper statisticInfoMapper;
 	
 	
 	/**
@@ -295,39 +300,7 @@ public class SalaryService {
 		list.add(getPersonStatistic(every_month,every_month, oa));
 		return list;
 	}
-	
-//	/*********************************************
-//	 *	根据指定月份查看统计
-//	 * @author Administrator<lichuan3992413@gmail.com>
-//	 * Create at:   2013-12-13 下午05:55:05 
-//	 * @param adminUsers
-//	 * @param every_month
-//	 * @return
-//	 ********************************************/
-//	public List<PersonStatistic> getAllPersonStatisticByMonth(List<AdminUser> adminUsers,String every_month){
-//		
-//		List<PersonStatistic> list = new ArrayList<PersonStatistic>();
-//		if(adminUsers!=null){
-//			
-//			PersonStatistic all = new PersonStatistic();
-//			for(AdminUser each:adminUsers){
-//				String oa = each.getEmp_id();
-//				PersonStatistic stat = getPersonStatistic(every_month, oa);
-//				if(stat!=null){
-//					
-//					stat.setUser_name(each.getAdmin_name());
-//					stat.setDepartment(each.getDepartment());
-//					processStatistic(stat);
-//					list.add(stat);
-//				}
-//			}
-//		}
-//		
-//		if(list.size()<1){
-//			return null;
-//		}
-//		return list;
-//	}
+
 	
 	/*********************************************
 	 *	根据月份段查看统计
@@ -362,6 +335,42 @@ public class SalaryService {
 		return list;
 	}
 
+	
+	/**
+	 * 根据月份段查看统计
+	 * @param adminUsers
+	 * @param start_month
+	 * @param end_month
+	 * @return
+	 */
+	public List<PersonStatistic> getStatistics(List<AdminUser> adminUsers,String start_month,String end_month){
+	
+		Map map = new HashMap();
+		map.put("start_month", start_month);
+		map.put("end_month", end_month);
+
+		List<PersonStatistic> list = statisticInfoMapper.fetchDatas(map);
+		
+//		if(adminUsers!=null){
+//			
+//			for(AdminUser each:adminUsers){
+//				String oa = each.getEmp_id();
+//				PersonStatistic stat = getPersonStatistic(start_month,end_month, oa);
+//				if(stat!=null){
+//					
+//					stat.setUser_name(each.getAdmin_name());
+//					stat.setDepartment(each.getDepartment());
+//					processStatistic(stat);
+//					list.add(stat);
+//				}
+//			}
+//		}
+		
+		if(list.size()<1){
+			return null;
+		}
+		return list;
+	}
 	private void processStatistic(PersonStatistic stat){
 		
 		if(stat==null){
@@ -383,51 +392,67 @@ public class SalaryService {
 		if(!map.containsKey("外出")){
 			
 			statMap.put("外出", 0d);
+			stat.setWaichu_count(0d);
 		}else{
 			statMap.put("外出", map.get("外出"));
+			stat.setWaichu_count(map.get("外出"));
 		}
 		
 		if(!map.containsKey("出差")){
 			
 			statMap.put("出差", 0d);
+			stat.setChuchai_count(0d);
 		}else{
 			statMap.put("出差", map.get("出差"));
+			stat.setChuchai_count(map.get("出差"));
 		}
 		if(!map.containsKey("调休")){
 			
 			statMap.put("调休", 0d);
+			stat.setTiaoxiu_count(0d);
 		}else{
 			statMap.put("调休", map.get("调休"));
+			stat.setTiaoxiu_count(map.get("调休"));
 		}
 		if(!map.containsKey("年假")){
 			
 			statMap.put("年假", 0d);
+			stat.setNianjia_count(0d);
 		}else{
 			statMap.put("年假", map.get("年假"));
+			stat.setNianjia_count(map.get("年假"));
 		}
 		if(!map.containsKey("婚假")){
 			
 			statMap.put("婚假", 0d);
+			stat.setHunjia_count(0d);
 		}else{
 			statMap.put("婚假", map.get("婚假"));
+			stat.setHunjia_count(map.get("婚假"));
 		}
 		if(!map.containsKey("产假")){
 			
 			statMap.put("产假", 0d);
+			stat.setChanjia_count(0d);
 		}else{
 			statMap.put("产假", map.get("产假"));
+			stat.setChanjia_count(map.get("产假"));
 		}
 		if(!map.containsKey("丧假")){
 			
 			statMap.put("丧假", 0d);
+			stat.setSangjia_count(0d);
 		}else{
 			statMap.put("丧假", map.get("丧假"));
+			stat.setSangjia_count(map.get("丧假"));
 		}
 		if(!map.containsKey("旷工")){
 			
 			statMap.put("旷工", 0d);
+			stat.setKuanggong_count(0d);
 		}else{
 			statMap.put("旷工", map.get("旷工"));
+			stat.setKuanggong_count(map.get("旷工"));
 		}
 		
 		statMap.put("迟到超出次数", (double)stat.getLate_fine());
@@ -435,6 +460,7 @@ public class SalaryService {
 		if(!map.containsKey("早退次数")){
 			
 			statMap.put("早退次数", 0d);
+
 		}else{
 			statMap.put("早退次数", map.get("早退次数"));
 		}
@@ -451,14 +477,18 @@ public class SalaryService {
 		if(!map.containsKey("事假")){
 			
 			statMap.put("事假天数", 0d);
+			stat.setShijia_count(0d);
 		}else{
 			statMap.put("事假天数", map.get("事假"));
+			stat.setShijia_count(map.get("事假"));
 		}
 		if(!map.containsKey("病假")){
 			
 			statMap.put("病假天数", 0d);
+			stat.setBingjia_count(0d);
 		}else{
 			statMap.put("病假天数", map.get("病假"));
+			stat.setBingjia_count(map.get("病假"));
 		}
 		
 		statMap.put("饭补天数", stat.getFanbu_date_count());
@@ -466,13 +496,23 @@ public class SalaryService {
 		if(!map.containsKey("工作日")){
 			
 			statMap.put("工作日", 0d);
+			stat.setWorkdate_overtime_count(0d);
 		}else{
 			statMap.put("工作日", map.get("工作日"));
+			stat.setWorkdate_overtime_count(map.get("工作日"));
 		}
 		statMap.put("休息日", stat.getOvertime_count());
 		
 		statMap.put("法定假日", stat.getHoliday_overtime_count());
-		statMap.put("待处理",map.get("待处理"));
+		
+		if(!map.containsKey("待处理")){
+			
+			statMap.put("待处理", 0d);
+			stat.setUndetermined_count(0d);
+		}else{
+			statMap.put("待处理", map.get("待处理"));
+			stat.setUndetermined_count(map.get("待处理"));
+		}
 		stat.setMap(statMap);
 	}
 	
@@ -661,193 +701,24 @@ public class SalaryService {
 		return null;
 	}
 	
-//	public PersonStatistic getPersonStatistic(String every_month,String oa){
-//		
-//		if(every_month!=null&&oa!=null){
-//			
-//			Map map = new HashMap();
-//			map.put("every_month", every_month);
-//			map.put("oa", oa);
-//			map.put("type", 0);
-//			
-//			List<PersonStatistic> statistics = salaryMapper.getPersonStatistic(map);
-//			//工作时间
-//			int working_date_count = salaryMapper.getPersonWorkingDate(map);
-//			//休息时间
-//			int holidays_count = salaryMapper.getPersonHolidays(map);
-//			//加班时间
-//			int overtime_count = salaryMapper.getPersonOvertimes(map);
-//			int holiday_overtime_count = salaryMapper.getPersonHolidayOvertimes(map);
-//			
-//			int xiuChanJia_count = salaryMapper.getPersonChanjia(map);//休产假
-//			
-//			int remainder = salaryMapper.getPersonCalendarRemander(map);//当月剩余天数
-//			
-//			List<PersonCalendar> leaves = getPersonLeaves(every_month, oa);
-//			
-//			if(statistics!=null){
-//				
-//				PersonStatistic ps = new PersonStatistic();
-//				ps.setOa(oa);
-//				ps.setEvery_month(every_month);
-//				ps.setHolidays_count(holidays_count);
-//				ps.setWorking_date_count(working_date_count);
-//				ps.setOvertime_count(overtime_count);
-//				ps.setHoliday_overtime_count(holiday_overtime_count);
-//				
-//				Map<String,Double> kv = new HashMap<String, Double>();
-//				
-//				for(PersonStatistic each:statistics){
-//					
-//					String department = each.getDepartment();
-//					ps.setDepartment(department);
-//					ps.setId(each.getId());
-//					statistic(each, kv);
-//				}
-//				
-//				if(kv.containsKey("待处理")){
-//					
-//					kv.put("待处理", Double.valueOf(kv.get("待处理")+leaves.size()));
-//					
-//				}else{
-//					if(leaves.size()>0){
-//						
-//						kv.put("待处理", Double.valueOf(leaves.size()));
-//					}
-//				}
-//
-//				double count = 0;
-//				
-//				List<String> keys = new ArrayList<String>();
-//				for(String key:kv.keySet()){
-//					
-//					if(key.contains("待处理")){
-//						
-//					   count += kv.get(key);
-//					   keys.add(key);
-//					}
-//				}
-//				
-//				for(String key:keys){
-//					kv.remove(key);
-//				}
-//				
-//				if(count>0){
-//					
-//					kv.put("待处理", Double.valueOf(count));
-//				}
-//				//去掉正常
-//				if(kv.containsKey("正常")){
-//					kv.remove("正常");
-//				}
-//				//去掉迟到-免，迟到-罚
-//				if(kv.containsKey("迟到-免")){
-//					ps.setLate_absolve(kv.get("迟到-免").intValue());
-//					kv.remove("迟到-免");
-//				}
-//				if(kv.containsKey("迟到-罚")){
-//					ps.setLate_fine(kv.get("迟到-罚").intValue());
-//					kv.remove("迟到-罚");
-//				}
-//				if(kv.containsKey("忘签到")){
-//					ps.setForget_checkin(kv.get("忘签到").intValue());
-//					kv.remove("忘签到");
-//				}
-//				if(kv.containsKey("忘签退")){
-//					
-//					ps.setForget_checkout(kv.get("忘签退").intValue());
-//					kv.remove("忘签退");
-//				}
-//				if(ps.getForget_checkin()+ps.getForget_checkout()>=3){
-//					
-//					ps.setForget_fine(ps.getForget_checkin()+ps.getForget_checkout()-3);
-//				}
-//				ps.setMap(kv);
-//
-////				ps.setUnknown_count((Integer)(kv.get("待处理")));
-//
-//				//计算实出勤天数，办公室上班天数
-//				//办公室上班+外出+出差+年假+调休假+婚假+产假+丧假-事假-病假=实际出勤天数
-//				//出勤天数+事假+病假=当月应出勤天数
-//				//饭补天数=办公室上班+外出+调休
-//				double shijia_count = 0;
-//				double bingjia_count = 0;
-//				if(kv.containsKey("事假")){
-//					
-//					shijia_count = kv.get("事假");
-//				}
-//				if(kv.containsKey("病假")){
-//					
-//					bingjia_count = kv.get("病假");
-//				}
-//				
-//				//由于实时计算查看，需要减去当月上月天数
-//				
-//				double real_working_date_count = working_date_count-shijia_count-bingjia_count-remainder;
-//				ps.setReal_working_date_count(real_working_date_count);
-//				
-//				double sangjia_count = 0;
-//				if(kv.containsKey("丧假")){
-//					
-//					sangjia_count = kv.get("丧假");
-//				}
-//				
-//				double chanjia_count = 0;
-//				if(kv.containsKey("产假")){
-//					
-//					chanjia_count = kv.get("产假");
-//				}
-//				if(xiuChanJia_count>0){
-//					kv.put("休产假", Double.valueOf(xiuChanJia_count));
-//				}
-//				
-//				
-//				double hunjia_count = 0;
-//				if(kv.containsKey("婚假")){
-//					
-//					hunjia_count = kv.get("婚假");
-//				}
-//				
-//				double tiaoxiujia_count = 0;
-//				if(kv.containsKey("调休假")){
-//					
-//					tiaoxiujia_count = kv.get("调休假");
-//				}
-//				
-//				double nianjia_count = 0;
-//				if(kv.containsKey("年假")){
-//					
-//					nianjia_count = kv.get("年假");
-//				}
-//				
-//				double chuchai_count = 0;
-//				if(kv.containsKey("出差")){
-//					
-//					chuchai_count = kv.get("出差");
-//				}
-//				
-//				double waichu_count = 0;
-//				if(kv.containsKey("外出")){
-//					
-//					waichu_count = kv.get("外出");
-//				}
-//				
-//				double office_date_count = real_working_date_count-sangjia_count-chanjia_count-hunjia_count-tiaoxiujia_count-nianjia_count-chuchai_count-waichu_count;
-//				//饭补天数=办公室上班+外出+调休
-//				ps.setOffice_date_count(office_date_count);
-//				double fanbu_date_count = office_date_count+waichu_count+tiaoxiujia_count;
-//				ps.setFanbu_date_count(fanbu_date_count);
-//				return ps;
-//			}
-//			
-//			return null;
-//		}
-//		return null;
-//	}
-	
-	private void process(){
+	public void processDataHandle(String every_month){
 		
+		init(every_month);
+		List<PersonStatistic> list = getAllPersonStatistic(adminUserMapper.getListBySort(),every_month,every_month);
+		
+		if(list!=null){
+
+			System.out.println("list size:"+list.size());
+			
+			statisticInfoMapper.clearDataByMonth(every_month);
+			for(PersonStatistic each:list){
+				
+				each.setEvery_month(every_month);
+				statisticInfoMapper.save(each);
+			}
+		}                 
 	}
+	
 	public void init(String every_month){
 		
 		//更新oa号
@@ -928,8 +799,13 @@ public class SalaryService {
 	private void statistic(PersonStatistic statistic,Map<String,Double> kv){
 		
 		//事假半天 5次，事假一天 2次,事假半天 年假半天 3次
-		
+		int status = statistic.getStatus();
 		String comment = statistic.getComment();
+		
+		if(status!=0){
+			comment = statistic.getResult();
+		}
+			
 		int time = statistic.getCount();//次数
 		if(comment!=null&&!"".equals(comment)){
 			
@@ -960,171 +836,8 @@ public class SalaryService {
 				}
 				kv.put(cm, count);
 				
-//				switch (CaseEnum.valueOf(cm)) {
-//				
-//				case 正常:
-//					System.out.println("正常");
-//					
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					
-//					break;
-//				case 迟到_免:
-//					System.out.println("迟到-免");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 迟到_罚:
-//					System.out.println("迟到-罚");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 外出:
-//					System.out.println("外出");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 出差:
-//					System.out.println("出差");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 调休:
-//					System.out.println("调休");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 年假:
-//					System.out.println("年假");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 婚假:
-//					System.out.println("婚假");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 产假:
-//					System.out.println("产假");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 丧假:
-//					System.out.println("丧假");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 事假:
-//					System.out.println("事假");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 病假:
-//					System.out.println("病假");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 旷工:
-//					System.out.println("旷工");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 忘签到:
-//					System.out.println("忘签到");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				case 忘签退:
-//					System.out.println("忘签退");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//
-//				default:
-//					System.out.println("正常");
-//					if(kv.containsKey(cm)){
-//						
-//						count += kv.get(cm);
-//					}
-//					
-//					kv.put(cm, count);
-//					break;
-//				}
 			}
-			
-			
-//			if(comment.equals("迟到-罚")){
-//				ps.setFine(50*count);
-//			}
-//			
-//			if(comment.startsWith("只有一条打卡记录，待处理")){
-//				comment="待处理";
-//			}
-//			
-//			if(kv.containsKey("待处理")){
-//				count += kv.get("待处理");
-//			}
-//			kv.put(comment, count);
+
 		}
 	}
 	

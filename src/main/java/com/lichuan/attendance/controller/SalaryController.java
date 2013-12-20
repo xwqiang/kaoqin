@@ -447,7 +447,8 @@ public class SalaryController {
 			end_month = formatter.format(Calendar.getInstance().getTime());
 		}
 		
-		List<PersonStatistic> list = salaryService.getAllPersonStatistic(adminUsers,start_month,end_month);
+//		List<PersonStatistic> list = salaryService.getAllPersonStatistic(adminUsers,start_month,end_month);
+		List<PersonStatistic> list = salaryService.getStatistics(adminUsers,start_month,end_month);
 		//合计数据
 		String tag = getMapping(department);
 		if(tag==null){
@@ -575,7 +576,7 @@ public class SalaryController {
 	public String init(HttpServletRequest request, ModelMap modelMap) {
 		
 		String every_month = request.getParameter("every_month");
-		salaryService.init(every_month);
+		salaryService.processDataHandle(every_month);
 		
 		return "初始化完成";
 		

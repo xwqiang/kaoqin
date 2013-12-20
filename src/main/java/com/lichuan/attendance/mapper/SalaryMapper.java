@@ -56,7 +56,7 @@ public interface SalaryMapper {
 	@Select("select count(*) from person_calendar where oa=#{oa} and every_month=#{every_month} and type=11")
 	int getPersonChanjia(Map<String,String> map);
 	
-	@Select("SELECT comment,id,oa,department,every_month,count(*) as count FROM salary WHERE oa=#{oa} and every_month<=#{end_month} and every_month>=#{start_month} group by comment")
+	@Select("SELECT status,comment,result,id,oa,department,every_month,count(*) as count FROM salary WHERE oa=#{oa} and every_month<=#{end_month} and every_month>=#{start_month} group by status,comment,result")
 	List<PersonStatistic> getPersonStatistic(Map<String,String> map);
 	
 	@Select("SELECT count(*) FROM person_calendar WHERE oa=#{oa} and every_month<=#{end_month} and every_month>=#{start_month} and  type=0")

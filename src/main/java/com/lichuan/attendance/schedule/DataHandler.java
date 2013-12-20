@@ -34,8 +34,8 @@ public class DataHandler {
 		
 		System.out.println("开始初始化 "+every_month+" 数据!");
         
-		salaryService.init(every_month);
-		
+		salaryService.processDataHandle(every_month);;
+
 		System.out.println(every_month+" 初始化完成");
     }
 
