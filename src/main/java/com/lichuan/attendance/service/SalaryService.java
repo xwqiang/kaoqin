@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -349,27 +350,25 @@ public class SalaryService {
 		map.put("start_month", start_month);
 		map.put("end_month", end_month);
 
-		List<PersonStatistic> list = statisticInfoMapper.fetchDatas(map);
 		
-//		if(adminUsers!=null){
-//			
-//			for(AdminUser each:adminUsers){
-//				String oa = each.getEmp_id();
-//				PersonStatistic stat = getPersonStatistic(start_month,end_month, oa);
-//				if(stat!=null){
-//					
-//					stat.setUser_name(each.getAdmin_name());
-//					stat.setDepartment(each.getDepartment());
-//					processStatistic(stat);
-//					list.add(stat);
-//				}
-//			}
-//		}
-		
-		if(list.size()<1){
-			return null;
+		if(adminUsers!=null){
+			
+			List<String> oaList = new ArrayList<String>();
+			for(AdminUser each:adminUsers){
+				String oa = each.getEmp_id();
+				oaList.add(oa);
+			}
+			
+			String str_oaList = StringUtils.join(oaList.toArray(), "','");
+			map.put("oaList", "'"+str_oaList+"'");
+			List<PersonStatistic> list = statisticInfoMapper.fetchDatas(map);
+			if(list.size()<1){
+				return null;
+			}
+			return list;
 		}
-		return list;
+		
+		return null;
 	}
 	private void processStatistic(PersonStatistic stat){
 		

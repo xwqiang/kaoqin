@@ -12,21 +12,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>汇总</title>
 		<link type="text/css" rel="stylesheet" href="css/global.css" />
 		<link type="text/css" rel="stylesheet" href="css/collect.css" />
 		<link type="text/css" rel="stylesheet" href="css/content.css" />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css"/>
 		<link rel='stylesheet' href='cupertino/theme.css' />
 		<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" media="screen" title="no title" charset="gbk" />
-		<script type="text/javascript" src="jquery/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/time/WdatePicker.js" defer="defer"></script>	
+		<script type="text/javascript" src="js/operamasks-ui.min.js"></script>
 		<script src="jquery/jquery.validationEngine-cn.js" type="text/javascript"></script>
 		<script src="jquery/jquery.validationEngine.js" type="text/javascript"></script>
 		<script src="js/CJL.0.1.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/CJL.0.1.min.js"></script>
-		<script type="text/javascript" src="js/js/operamasks-ui.min.js"></script>
-		<title>汇总</title>
 				<script type="text/javascript">
 		
 			
@@ -289,6 +288,7 @@ TableFixed.prototype = {
 .menu li a{ display:block; padding:2px 0 2px 24px; color:#1E5791;}
 .menu li a:hover{text-decoration: none;color:#FF5C00; }
 .menu li .current{ background:#FEDCBD;}
+	
 	.shortcut-box{
 	display:block;
 	position:fixed;
@@ -335,7 +335,7 @@ TableFixed.prototype = {
 		</div>
 		<!--搜索部分 start-->
 		<div id="toolbar">
-			<form method="post" action="showAllAttendance.do" id="formID" accept-charset="utf-8">
+			<form method="post" action="showAllAttendance.do?flag=admin" id="formID" accept-charset="utf-8">
 				
 				<span> 
 					<!-- 
@@ -346,7 +346,7 @@ TableFixed.prototype = {
 					<input	type="hidden" id="oa" name="oa" value="${oa }" /> 
 					<input	type="hidden" id="type" name="type" value="query" /> 
 					</span>
-					-->
+					 -->
 				<span> <label for="user_name">
 						员工姓名：
 					</label>
@@ -354,13 +354,7 @@ TableFixed.prototype = {
 					<input	type="hidden" id="oa" name="oa" value="${oa }" /> 
 					<input	type="hidden" id="type" name="type" value="query" /> 
 					</span>
-					<!-- 
-				<span> <label for="user_name">
-						工号：
-					</label>
-					<input id="emp_id" name="emp_id" style="width: 60px" value="${emp_id }" class="text-input field"/> 
-					</span>
-					 -->
+
 						<span><label for="every_month">
 						开始月份：
 						</label>
@@ -372,6 +366,7 @@ TableFixed.prototype = {
 						<input  type="text" name="end_month" id="end_month" value="${end_month}" class=" validate[required] text-input field" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM',minDate:'#F{$dp.$D(\'start_month\')}',maxDate:'%y-%M'})" class="inpstyle validate[required] text-input field"/>
 					</span>
 				<span><input class="grid-button" type="submit" value="查 询" />
+					
 						</span>
 			</form>
 			<!--按钮-->
@@ -472,21 +467,107 @@ TableFixed.prototype = {
 								<td>
 									<a title="查看明细" href="getPersonChecking-in.do?every_month=${every_month }&user_name=${statistic.user_name }">${statistic.oa }</a>
 								</td>
+								<td>
+									<c:if test="${statistic.office_date_count!=0}">
+									
+										${statistic.office_date_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${statistic.waichu_count!=0}">
+										${statistic.waichu_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${statistic.chuchai_count!=0}">
+										${statistic.chuchai_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.tiaoxiu_count!=0}">
+									${statistic.tiaoxiu_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${statistic.nianjia_count!=0}">
+									
+									${statistic.nianjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.hunjia_count!=0}">
+									${statistic.hunjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.chanjia_count!=0}">
+									${statistic.chanjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.sangjia_count!=0}">
+									${statistic.sangjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.kuanggong_count!=0}">
+									${statistic.kuanggong_count}
+									</c:if>
+								</td>
 								
-					            <c:forEach items="${statistic.map}" var="entry">  
-					            		<td>
-					            	<c:if test="${entry.value !=0}">
-					            	  <c:if test="${entry.key=='待处理'}">
-					            		<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-in.do?every_month=${every_month }&user_name=${statistic.user_name }">${entry.value }</a>
-					            		</c:if>
-					            	
-						            	<c:if test="${entry.key!='待处理'}">
-						            		 ${entry.value }
-						            	</c:if>
-					            	   
-					            	</c:if>
-					            	</td>
-								</c:forEach>  
+								<td>
+									<c:if test="${statistic.late_fine!=0}">
+									${statistic.late_fine}
+									</c:if>
+								</td>
+								<td>
+									
+								</td>
+								<td>
+									<c:if test="${statistic.forget_fine!=0}">
+										${statistic.forget_fine}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.real_working_date_count!=0}">
+									${statistic.real_working_date_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${statistic.shijia_count!=0}">
+										${statistic.shijia_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${statistic.bingjia_count!=0}">
+									${statistic.bingjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.fanbu_date_count!=0}">
+									${statistic.fanbu_date_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.workdate_overtime_count!=0}">
+									${statistic.workdate_overtime_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.overtime_count!=0}">
+									${statistic.overtime_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.holiday_overtime_count!=0}">
+									${statistic.holiday_overtime_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${statistic.undetermined_count!=0}">
+									<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-in.do?every_month=${every_month }&user_name=${statistic.user_name }">${statistic.undetermined_count}</a>
+									</c:if>
+								</td>
 						</tr>
 					</c:forEach>	
 					<!-- 			
@@ -532,7 +613,6 @@ TableFixed.prototype = {
 				<li><a class="wwb" href="showAllAttendance.do?department=产品运营部&start_month=${start_month }&end_month=${end_month }">产品运营部</a></li>
 				<li><a class="wwb" href="showAllAttendance.do?department=无为部&start_month=${start_month }&end_month=${end_month }">无为部</a></li>
 				<li><a class="zjb" href="showAllAttendance.do?department=总经办&start_month=${start_month }&end_month=${end_month }">总经办</a></li>
-			
 				</ul>
 		</div>
 		

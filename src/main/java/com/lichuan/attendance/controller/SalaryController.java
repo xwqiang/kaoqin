@@ -506,7 +506,8 @@ public class SalaryController {
 			end_month = start_month;
 		}
 		
-		List<PersonStatistic> list = salaryService.getAllPersonStatistic(adminUsers,start_month,end_month);
+//		List<PersonStatistic> list = salaryService.getAllPersonStatistic(adminUsers,start_month,end_month);
+		List<PersonStatistic> list = salaryService.getStatistics(adminUsers,start_month,end_month);
 		
 		if (list != null && list.size() > 0) {
 			int num = list.size() + 1;
@@ -541,19 +542,26 @@ public class SalaryController {
 				queryData[i][1] = tmp.getDepartment();
 				queryData[i][2] = tmp.getUser_name();
 				queryData[i][3] = tmp.getOa();
-				Map<String, Double> map = tmp.getMap();
-				
-				int count = 3;
-				for(String key:map.keySet()){
-					count ++;
-					String result = String.valueOf(map.get(key));
-					if(result==null||result.equals("null")){
-						result = "0";
-					}
-					queryData[i][count] = result;
-
-				}
-				
+				queryData[i][4] = String.valueOf(tmp.getOffice_date_count());
+				queryData[i][5] = String.valueOf(tmp.getWaichu_count());
+				queryData[i][6] = String.valueOf(tmp.getChuchai_count());
+				queryData[i][7] = String.valueOf(tmp.getTiaoxiu_count());
+				queryData[i][8] = String.valueOf(tmp.getNianjia_count());
+				queryData[i][9] = String.valueOf(tmp.getHunjia_count());
+				queryData[i][10] = String.valueOf(tmp.getChanjia_count());
+				queryData[i][11] = String.valueOf(tmp.getSangjia_count());
+				queryData[i][12] = String.valueOf(tmp.getKuanggong_count());
+				queryData[i][13] = String.valueOf(tmp.getLate_fine());
+				queryData[i][14] = String.valueOf("");
+				queryData[i][15] = String.valueOf(tmp.getForget_fine());
+				queryData[i][16] = String.valueOf(tmp.getReal_working_date_count());
+				queryData[i][17] = String.valueOf(tmp.getShijia_count());
+				queryData[i][18] = String.valueOf(tmp.getBingjia_count());
+				queryData[i][19] = String.valueOf(tmp.getFanbu_date_count());
+				queryData[i][20] = String.valueOf(tmp.getWorkdate_overtime_count());
+				queryData[i][21] = String.valueOf(tmp.getOvertime_count());
+				queryData[i][22] = String.valueOf(tmp.getHoliday_overtime_count());
+				queryData[i][23] = String.valueOf(tmp.getUndetermined_count());
 			}
 			ExcelUtils.exportExcelData(start_month+"--"+end_month+" 统计列表", queryData, "exportDatas.xls", request,
 					response);
