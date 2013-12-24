@@ -41,7 +41,6 @@ public class SalaryController {
 	@Autowired
 	private SalaryService salaryService;
 
-	@SuppressWarnings("unused")
 	/**
 	 * 获取个人考勤记录
 	 * @param request
@@ -356,28 +355,6 @@ public class SalaryController {
 
 	}
 
-	/**
-	 * 获取个人日历
-	 * 
-	 * @param request
-	 * @param modelMap
-	 * @return
-	 */
-	@RequestMapping(value = "/getPersonCalendar.do")
-	public String getPersonCalendar(HttpServletRequest request,
-			ModelMap modelMap) {
-
-		String user_name = request.getParameter("user_name");
-		// String every_month = request.getParameter("every_month");
-
-		List<PersonCalendar> list = salaryService
-				.getPersonCalendarByName(user_name);
-		modelMap.addAttribute("list", list)
-				.addAttribute("user_name", user_name);
-		return "salary/personCalendar";
-
-	}
-
 	@RequestMapping(value = "/showAllAttendance.do")
 	public String showAllAttendance(HttpServletRequest request,
 			ModelMap modelMap) {
@@ -439,13 +416,11 @@ public class SalaryController {
 
 	/**
 	 * 导出网关发送在某月内的详细数据 Description:
-	 * 
 	 * @param request
 	 * @param response
 	 * @param modelMap
 	 * @return
 	 * @throws Exception
-	 * @author baisong Create at: Apr 19, 2013 10:46:35 AM
 	 */
 	@RequestMapping(value = "/exportAllAttendance.do")
 	public String exportgateDataListEverydayBymonth(HttpServletRequest request,

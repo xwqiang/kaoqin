@@ -49,6 +49,7 @@ public class SalaryService {
 		salaryMapper.deleteNUllRecord(map);
 		salaryMapper.updateStatus(map);
 	}
+	
 	/*********************************************
 	 *	根据指定月份获取考勤列表
 	 * @author Administrator<lichuan3992413@gmail.com>
@@ -93,6 +94,10 @@ public class SalaryService {
 		return null;
 	}
 	
+	/**
+	 * 处理备注
+	 * @param list
+	 */
 	private void commentTypeHandle(List<Salary> list){
 		if(list!=null){
 			for(Salary each:list){
@@ -149,6 +154,10 @@ public class SalaryService {
 		}
 	}
 	
+	/**
+	 * 更新备注
+	 * @param salary
+	 */
 	public void updateComment(Salary salary){
 		
 		Map<String,String> map  = new HashMap<String, String>();
@@ -162,6 +171,12 @@ public class SalaryService {
 		salaryMapper.updateComment(map);
 	}
 	
+	/**
+	 * 更新人资标注结果
+	 * @param salary
+	 * @param start_date
+	 * @param end_date
+	 */
 	public void updateResult(Salary salary,String start_date,String end_date){
 		
 		Map<String,String> map  = new HashMap<String, String>();
@@ -184,28 +199,6 @@ public class SalaryService {
 			salaryMapper.insertResult(map);
 		}
 		System.out.println(result);
-	}
-	
-	public Map<String,List<Salary>> showSalaryListByMonth(String everyMonth){
-		
-		List<Salary> list = getListByMonth(everyMonth);
-		
-		Map<String,List<Salary>> map  = new HashMap<String, List<Salary>>();
-		if(list!=null){
-			for(Salary each:list){
-				String user_name = each.getUser_name();
-				String department = each.getDepartment();
-				String key = department+"_"+user_name;
-				
-				if(!map.containsKey(key)){
-					
-					List<Salary> value = new ArrayList<Salary>();
-					map.put(key, value);
-				}
-				map.get(key).add(each);
-			}
-		}
-		return map;
 	}
 	
 	public List<SalaryDetail> getDetailListByName(String userName){
@@ -370,6 +363,11 @@ public class SalaryService {
 		
 		return null;
 	}
+	
+	/**
+	 * 统计加工
+	 * @param stat
+	 */
 	private void processStatistic(PersonStatistic stat){
 		
 		if(stat==null){

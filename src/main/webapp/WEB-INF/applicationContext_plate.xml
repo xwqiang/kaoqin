@@ -74,7 +74,7 @@
 	<!-- 配置触发器类CronTriggerBean -->
 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">   
 		<property name="jobDetail" ref="reportTask" />   
-		<property name="cronExpression" value="* */2 * * * ?" />   
+		<property name="cronExpression" value="* */10 * * * ?" />   
 	</bean>   
 	
 	<!-- 配置调度器类SchedulerFactoryBean -->
