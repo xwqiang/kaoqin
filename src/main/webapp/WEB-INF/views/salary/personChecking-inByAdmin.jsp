@@ -305,7 +305,7 @@
 		});
 		
 		$('.fc-button-next').click(function() {
-		
+			
 			$("#type").attr("value" , 'next');
     		//$('#calendar').fullCalendar('next');
     		document.getElementById('formID').submit();
@@ -324,13 +324,12 @@
 		</script>
 		<style>
 	body {
-		margin-top: 40px;
 		text-align: center;
 		font-size: 13px;
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		background:#eee;
 		}
-	#Container{ width:1120px; margin:0 auto; text-align:left; overflow:hidden;}
+	#Container{ width:1100px; margin:0 auto; text-align:left; overflow:hidden;}
 	
 	#calendar {
 		width: 900px;
