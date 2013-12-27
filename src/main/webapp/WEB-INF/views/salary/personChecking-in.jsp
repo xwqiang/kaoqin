@@ -358,6 +358,21 @@
 </style>
 	</head>
 	<body>
+		<div id="header">
+			<div class="header">
+			
+			<c:if test="${adminUser!=null}">
+			
+		    	你好,${adminUser.admin_name }&nbsp;&nbsp;<a href="logout.do">退出</a>
+			
+			</c:if>
+			<c:if test="${empty adminUser}">
+			
+		    	<a href="login.do">登录</a>
+			
+			</c:if>
+		   	 </div>
+		</div>
 		<div id="nav">
 			<ul>
 				<li><a href="getPersonChecking-in.do" class="current">个人考勤</a></li>

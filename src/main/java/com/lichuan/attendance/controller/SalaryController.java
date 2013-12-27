@@ -59,7 +59,17 @@ public class SalaryController {
 		System.out.println(oa);
 
 		if (user_name == null) {
-			user_name = "李川";
+			
+			AdminUser adminUser = (AdminUser) request.getSession().getAttribute("adminUser");
+			if(adminUser!=null){
+				
+				user_name = adminUser.getAdmin_name();
+				oa = adminUser.getEmp_id();
+				
+			}else{
+				
+				user_name = "李川";
+			}
 		}
 
 		if (every_month == null) {
@@ -300,8 +310,20 @@ public class SalaryController {
 			return null;
 
 		}
+		
+		
 		if (user_name == null) {
-			user_name = "李川";
+			
+			AdminUser adminUser = (AdminUser) request.getSession().getAttribute("adminUser");
+			if(adminUser!=null){
+				
+				user_name = adminUser.getAdmin_name();
+				oa = adminUser.getEmp_id();
+				
+			}else{
+				
+				user_name = "李川";
+			}
 		}
 		if (every_month == null) {
 
@@ -389,11 +411,16 @@ public class SalaryController {
 			end_month = formatter.format(Calendar.getInstance().getTime());
 		}
 
-		// List<PersonStatistic> list =
-		// salaryService.getAllPersonStatistic(adminUsers,start_month,end_month);
 		List<PersonStatistic> list = salaryService.getStatistics(adminUsers,
 				start_month, end_month);
-		// 合计数据
+		
+		PersonStatistic totalStats = null;
+		if(list!=null&&list.size()>1){
+			//一条记录不显示合计
+			// 合计数据
+			totalStats = salaryService.getTotalStats(adminUsers, start_month, end_month);
+		}
+		
 		String tag = getMapping(department);
 		if (tag == null) {
 			tag = "quanti";
@@ -404,6 +431,7 @@ public class SalaryController {
 				.addAttribute("end_month", end_month)
 				.addAttribute("every_month", end_month)
 				.addAttribute("department", department)
+				.addAttribute("totalStats", totalStats)
 				.addAttribute("tag", tag);
 		if (flag != null) {
 

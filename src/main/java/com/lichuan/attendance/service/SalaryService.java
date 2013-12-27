@@ -21,6 +21,7 @@ import com.lichuan.attendance.model.PersonCalendar;
 import com.lichuan.attendance.model.PersonStatistic;
 import com.lichuan.attendance.model.Salary;
 import com.lichuan.attendance.model.SalaryDetail;
+import com.lichuan.util.DateUtil;
 import com.lichuan.util.PatternTool;
 import com.lichuan.util.SalaryAlgorithm;
 
@@ -329,7 +330,37 @@ public class SalaryService {
 		return list;
 	}
 
-	
+	/**
+	 * 合计
+	 * @param adminUsers
+	 * @param start_month
+	 * @param end_month
+	 * @return
+	 */
+	public PersonStatistic getTotalStats(List<AdminUser> adminUsers,String start_month,String end_month){
+		
+		Map map = new HashMap();
+		map.put("start_month", start_month);
+		map.put("end_month", end_month);
+
+		
+		if(adminUsers!=null){
+			
+			List<String> oaList = new ArrayList<String>();
+			for(AdminUser each:adminUsers){
+				String oa = each.getEmp_id();
+				oaList.add(oa);
+			}
+			
+			String str_oaList = StringUtils.join(oaList.toArray(), "','");
+			map.put("oaList", "'"+str_oaList+"'");
+			PersonStatistic stats = statisticInfoMapper.fetchTotalDatas(map);
+			
+			return stats;
+		}
+		
+		return null;
+	}
 	/**
 	 * 根据月份段查看统计
 	 * @param adminUsers
@@ -705,7 +736,7 @@ public class SalaryService {
 		
 		if(list!=null){
 
-			System.out.println("list size:"+list.size());
+			System.out.println("current time: "+DateUtil.getNow()+" list size:"+list.size());
 			
 			statisticInfoMapper.clearDataByMonth(every_month);
 			for(PersonStatistic each:list){

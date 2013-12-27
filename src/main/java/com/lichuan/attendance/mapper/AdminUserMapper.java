@@ -36,6 +36,9 @@ public interface AdminUserMapper {
 
 	@Select("SELECT * FROM admin_user WHERE  status=0 and admin_id = #{admin_id}")
 	AdminUser getInfoByAdminId(String admin_id);
+	
+	@Select("SELECT * FROM admin_user WHERE  status=0 and emp_id = #{emp_id}")
+	AdminUser getInfoByEmpId(String admin_id);
 
 	@Select("SELECT * FROM admin_user WHERE  status=0 and admin_name = #{admin_name} limit 1")
 	AdminUser getInfoByAdminName(String admin_name);
@@ -63,6 +66,7 @@ public interface AdminUserMapper {
 	@Select("SELECT admin_id FROM admin_user WHERE emp_id = #{validateValue} or admin_id=#{validateValue}")
 	AdminUser getInfoByAdminIdOrEmpId(String validateValue);
 	
-	@Update("update admin_user a,salary s set s.oa=a.emp_id ,s.id=a.check_id where a.admin_name=s.user_name and (s.oa is null or id is null)")
+//	@Update("update admin_user a,salary s set s.oa=a.emp_id ,s.id=a.check_id where a.admin_name=s.user_name and (s.oa is null or id is null)")
+	@Update("update salary s,admin_user a set s.oa=a.emp_id ,s.id=a.check_id where s.user_name = a.admin_name")
 	int updateOA();
 }

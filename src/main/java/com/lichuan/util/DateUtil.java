@@ -416,11 +416,7 @@ public class DateUtil {
 
 	public static void main(String[] args) throws ParseException {
 
-		System.out.println("current month:" + getLastMonth("2013-01"));
-		System.out.println("current month:" + getCurrentMonth());
-		System.out.println("current month:" + getLastMonth(getCurrentMonth()));
-		System.out.println("current month:" + getNextMonth("2013-01"));
-		System.out.println("current month:" + getNextMonth("2013-wrw12"));
+		System.out.println(getNow());
 	}
 
 	public static String getMonth(String month) {

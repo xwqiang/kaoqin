@@ -154,3 +154,7 @@ a.btn-tag:hover{ background:#a0dcff; color:#FFF; text-decoration:none;}
 	font-size:16px; font-family:"微软雅黑"; color:#2C82D9; font-weight:bold; text-decoration: none;}
 	#nav li a:hover{ text-decoration: none;}
 #nav li .current{ color:#fff; background:#2C82D9;}
+
+#header{ height:30px; width:100%; background:#5d6d7d; margin-bottom:20px;}
+	.header{ width:1000px; margin:0 auto; text-align:right; color:#FFF; line-height:30px;}
+	.header a{ color:#FFF; text-decoration:none;}

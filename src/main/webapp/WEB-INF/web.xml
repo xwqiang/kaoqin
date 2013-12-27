@@ -10,6 +10,15 @@
 		<session-timeout>480</session-timeout>
 	</session-config>
 	
+	<filter>
+		<filter-name>CheckUserLoginFilter</filter-name>
+		<filter-class>com.lichuan.login.filter.CheckUserLoginFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>CheckUserLoginFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
 	
 	<filter>
 		<filter-name>SetCharacterEncoding</filter-name>

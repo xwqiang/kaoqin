@@ -55,6 +55,11 @@ public class AdminUserService {
 	public AdminUser getInfoByAdminId(String id) {
 		return adminUserMapper.getInfoByAdminId(id);
 	}
+	
+	// 通过admin_id获取用户信息
+	public AdminUser getInfoByEmpId(String id) {
+		return adminUserMapper.getInfoByEmpId(id);
+	}
 
 	// 通过admin_name获取用户信息
 	public AdminUser getInfoByAdminName(String admin_name) {

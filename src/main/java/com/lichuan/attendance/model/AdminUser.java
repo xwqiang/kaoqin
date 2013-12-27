@@ -1,5 +1,7 @@
 package com.lichuan.attendance.model;
 
+import java.io.Serializable;
+
 
 /**
  *
@@ -9,7 +11,7 @@ package com.lichuan.attendance.model;
  *
  * Create at:   2013-10-16 下午02:52:43 
  */
-public class AdminUser{
+public class AdminUser implements Serializable{
 	private int sn;
 	private String admin_id;
 	private String admin_name;

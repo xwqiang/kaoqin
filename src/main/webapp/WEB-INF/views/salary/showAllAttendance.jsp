@@ -79,6 +79,171 @@
 			 
 			});
 			
+			
+
+			var TableFixed = function(table, options){
+				this._oTable = $$(table);//原table
+				this._nTable = this._oTable.cloneNode(false);//新table
+				this._nTable.id = "";//避免id冲突
+				
+				this._oTablePos = {};//记录原table坐标参数
+				this._oRowPos = {};//记录原tr坐标参数
+				this._viewHeight = this._oTableHeight = this._nTableHeight = 0;//记录高度
+				this._nTableViewTop = 0;//记录新table视框top
+				this._selects = [];//select集合，用于ie6覆盖select
+				
+				this._setOptions(options);
+				
+				this._index = this.options.index;
+				this._pos = this.options.pos;
+				
+				this.auto = !!this.options.auto;
+				this.hide = !!this.options.hide;
+				
+				$$E.addEvent(window, "resize", $$F.bind( this.setPos, this ));
+				$$E.addEvent(window, "scroll", $$F.bind( this.run, this ));
+				
+				this._oTable.parentNode.insertBefore(this._nTable, this._oTable);
+				this.clone();
+			};
+			TableFixed.prototype = {
+			  //chrome/safari透明用rgba(0, 0, 0, 0)
+			  _transparent: $$B.chrome || $$B.safari ? "rgba(0, 0, 0, 0)" : "transparent",
+			  //设置默认属性
+			  _setOptions: function(options) {
+				this.options = {//默认值
+					index:	0,//tr索引
+					auto:	true,//是否自动定位
+					pos:	0,//自定义定位位置百分比(0到1)
+					hide:	false//是否隐藏（不显示）
+				};
+				$$.extend(this.options, options || {});
+			  },
+			  //克隆表格
+			  clone: function(index) {
+				//设置table样式
+				$$D.setStyle(this._nTable, {
+					width: this._oTable.offsetWidth + "px",
+					position: $$B.ie6 ? "absolute" : "fixed",
+					zIndex: 99, borderTopWidth: 0, borderBottomWidth: 0
+				});
+				//设置index
+				this._index = Math.max(0, Math.min(this._oTable.rows.length - 1, isNaN(index) ? this._index : index));
+				//克隆新行
+				this._oRow = this._oTable.rows[this._index];
+				var oT = this._oRow, nT = oT.cloneNode(true);
+				if( oT.parentNode != this._oTable ){
+					nT = oT.parentNode.cloneNode(false).appendChild(nT).parentNode;
+				}
+				//插入新行
+				if ( this._nTable.firstChild ) {
+					this._nTable.replaceChild( nT, this._nTable.firstChild );
+				} else {
+					this._nTable.appendChild(nT);
+				}
+				//去掉table上面和下面的边框
+				if ( this._oTable.border > 0 ) {
+					switch (this._oTable.frame) {
+						case "above" :
+						case "below" :
+						case "hsides" :
+							this._nTable.frame = "void"; break;
+						case "" :
+						case "border" :
+						case "box" :
+							this._nTable.frame = "vsides"; break;
+					}
+				}
+				//设置td样式
+				var nTds = this._nTable.rows[0].cells, getStyle = $$D.getStyle;
+				$$A.forEach(this._oRow.cells, $$F.bind(function(o, i){
+					var style = nTds[i].style;
+					//设置td背景
+					style.backgroundColor = this._getBgColor(o);
+					//设置td的width,没考虑ie8/chrome设scroll的情况
+					style.width = (document.defaultView ? parseFloat(getStyle(o, "width"))
+						: ( o.clientWidth - parseInt(getStyle(o, "paddingLeft")) - parseInt(getStyle(o, "paddingRight")) )) + "px";
+				}, this));
+				//获取table高度
+				this._oTableHeight = this._oTable.offsetHeight;
+				this._nTableHeight = this._nTable.offsetHeight;
+				//设置坐标属性
+				this._oTablePos = $$D.rect(this._oTable);//获取原table位置
+				this._oRowPos = $$D.rect(this._oRow);//获取原tr位置
+				
+				this.setPos();
+			  },
+			  //获取背景色
+			  _getBgColor: function(node) {
+				var bgc = "";
+				//不要透明背景（没考虑图片背景）
+				while (bgc === this._transparent && (node = node.parentNode) != document) {
+					bgc = $$D.getStyle(node, "backgroundColor");
+				}
+				return bgc === this._transparent ? "#fff" : bgc;
+			  },
+			  //设置新table位置属性
+			  setPos: function(pos) {
+				//设置pos
+				this._pos = Math.max(0, Math.min(1, isNaN(pos) ? this._pos : pos));
+				//获取位置
+				this._viewHeight = document.documentElement.clientHeight;
+				this._nTableViewTop = (this._viewHeight - this._nTableHeight) * this._pos;
+				this.run();
+			  },
+			  //运行
+			  run: function() {
+				var tStyle = this._nTable.style;
+				if(!this.hide){
+					var top = $$D.getScrollTop(), left = $$D.getScrollLeft()
+						//原tr是否超过顶部和底部
+						,outViewTop = this._oRowPos.top < top, outViewBottom = this._oRowPos.bottom > top + this._viewHeight;
+					//原tr超过视窗范围
+					if ( outViewTop || outViewBottom ) {
+						var viewTop = !this.auto ? this._nTableViewTop
+								: (outViewTop ? 0 : (this._viewHeight - this._nTableHeight))//视窗top
+							,posTop = viewTop + top;//位置top
+						//在原table范围内
+						if( posTop > this._oTablePos.top && posTop + this._nTableHeight < this._oTablePos.bottom ){
+							//定位
+							if( $$B.ie6 ){
+								tStyle.top = posTop + "px";
+								tStyle.left = this._oTablePos.left + "px";
+								setTimeout($$F.bind(this._setSelect, this), 0);//iebug
+							}else{
+								tStyle.top = viewTop + "px";
+								tStyle.left = this._oTablePos.left - left + "px";
+							}
+							return;
+						}
+					}
+				}
+				//隐藏
+				tStyle.top = "-99999px";
+				$$B.ie6 && this._resetSelect();
+			  },
+			  //设置select集合
+			  _setSelect: function() {
+				this._resetSelect();
+				var rect = $$D.clientRect(this._nTable);
+				//把需要隐藏的放到_selects集合
+				this._selects = $$A.filter(this._oTable.getElementsByTagName("select"), $$F.bind(function(o){
+					var r = $$D.clientRect(o);
+					if(r.top <= rect.bottom && r.bottom >= rect.top){
+						o._count ? o._count++ : (o._count = 1);//防止多个实例冲突
+						//设置隐藏
+						var visi = o.style.visibility;
+						if(visi != "hidden"){ o._css = visi; o.style.visibility = "hidden"; }
+						return true;
+					}
+				}, this))
+			  },
+			  //恢复select样式
+			  _resetSelect: function() {
+				$$A.forEach( this._selects, function(o){ !--o._count && ( o.style.visibility = o._css ); } );
+				this._selects = [];
+			  }
+			};
 		</script>
 		
 		<style>
@@ -158,7 +323,21 @@
 </style>
 	</head>
 	<body id="top">
-	
+		<div id="header">
+			<div class="header">
+			
+			<c:if test="${adminUser!=null}">
+			
+		    	你好,${adminUser.admin_name }&nbsp;&nbsp;<a href="logout.do">退出</a>
+			
+			</c:if>
+			<c:if test="${empty adminUser}">
+			
+		    	<a href="login.do">登录</a>
+			
+			</c:if>
+		   	 </div>
+		</div>
 		<div id="nav">
 			<ul>
 				<li><a href="getPersonChecking-in.do">个人考勤</a></li>
@@ -402,31 +581,114 @@
 								</td>
 						</tr>
 					</c:forEach>	
-					<!-- 			
+					<c:if test="${totalStats!=null}">
 						<tr>
-							<td colspan="3"><strong>合计</strong></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td colspan="3"><strong>合计:</strong></td>
+							<td>
+									<c:if test="${totalStats.office_date_count!=0}">
+									
+										${totalStats.office_date_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${totalStats.waichu_count!=0}">
+										${totalStats.waichu_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${totalStats.chuchai_count!=0}">
+										${totalStats.chuchai_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.tiaoxiu_count!=0}">
+									${totalStats.tiaoxiu_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${totalStats.nianjia_count!=0}">
+									
+									${totalStats.nianjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.hunjia_count!=0}">
+									${totalStats.hunjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.chanjia_count!=0}">
+									${totalStats.chanjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.sangjia_count!=0}">
+									${totalStats.sangjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.kuanggong_count!=0}">
+									${totalStats.kuanggong_count}
+									</c:if>
+								</td>
+								
+								<td>
+									<c:if test="${totalStats.late_fine!=0}">
+									${totalStats.late_fine}
+									</c:if>
+								</td>
+								<td>
+									
+								</td>
+								<td>
+									<c:if test="${totalStats.forget_fine!=0}">
+										${totalStats.forget_fine}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.real_working_date_count!=0}">
+									${totalStats.real_working_date_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${totalStats.shijia_count!=0}">
+										${totalStats.shijia_count}
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${totalStats.bingjia_count!=0}">
+									${totalStats.bingjia_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.fanbu_date_count!=0}">
+									${totalStats.fanbu_date_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.workdate_overtime_count!=0}">
+									${totalStats.workdate_overtime_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.overtime_count!=0}">
+									${totalStats.overtime_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.holiday_overtime_count!=0}">
+									${totalStats.holiday_overtime_count}
+									</c:if>
+								</td>
+								<td>
+								<c:if test="${totalStats.undetermined_count!=0}">
+									<p style="color: red;font-weight: bold;">
+										${totalStats.undetermined_count}
+									</p>
+									</c:if>
+								</td>
 						</tr>
-						 -->
+						</c:if>
 			</table>
 		</div>
 		</div>
