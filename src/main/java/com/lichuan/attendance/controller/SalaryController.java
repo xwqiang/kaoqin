@@ -6,19 +6,25 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONArray;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.lichuan.attendance.model.AdminUser;
+import com.lichuan.attendance.model.ConfirmRecord;
 import com.lichuan.attendance.model.PersonCalendar;
 import com.lichuan.attendance.model.PersonStatistic;
 import com.lichuan.attendance.model.Salary;
 import com.lichuan.attendance.service.AdminUserService;
+import com.lichuan.attendance.service.ConfirmRecordService;
 import com.lichuan.attendance.service.SalaryService;
 import com.lichuan.util.DateUtil;
 import com.lichuan.util.ExcelUtils;
@@ -40,6 +46,8 @@ public class SalaryController {
 	private AdminUserService adminService;
 	@Autowired
 	private SalaryService salaryService;
+	@Autowired
+	private ConfirmRecordService ConfirmRecordService;
 
 	/**
 	 * 获取个人考勤记录
@@ -111,6 +119,8 @@ public class SalaryController {
 		List<PersonCalendar> leaves = salaryService.getPersonAllLeaves(
 				every_month, oa);
 
+		List<ConfirmRecord> confirmRecords = ConfirmRecordService.queryListByOAMonth(every_month, oa);
+		
 		String[] arr = every_month.split("-");
 
 		modelMap.addAttribute("list", list)
@@ -120,6 +130,8 @@ public class SalaryController {
 				.addAttribute("month", (Integer.valueOf(arr[1]) - 1))
 				.addAttribute("calendars", calendars)
 				.addAttribute("statistic", statistic)
+				.addAttribute("confirmRecords", confirmRecords)
+				.addAttribute("referrer",request.getRequestURL())
 				.addAttribute("leaves", leaves);
 
 		return "salary/personChecking-in";
@@ -411,6 +423,7 @@ public class SalaryController {
 			end_month = formatter.format(Calendar.getInstance().getTime());
 		}
 
+
 		List<PersonStatistic> list = salaryService.getStatistics(adminUsers,
 				start_month, end_month);
 		
@@ -420,6 +433,7 @@ public class SalaryController {
 			// 合计数据
 			totalStats = salaryService.getTotalStats(adminUsers, start_month, end_month);
 		}
+		
 		
 		String tag = getMapping(department);
 		if (tag == null) {
@@ -575,7 +589,6 @@ public class SalaryController {
 
 	/**
 	 * 一键恢复考勤数据，修改状态status=0
-	 * 
 	 * @param request
 	 * @param modelMap
 	 * @return
@@ -596,6 +609,42 @@ public class SalaryController {
 			request.setAttribute("every_month", every_month);
 			request.setAttribute("user_name", user_name);
 			return getPersonSalaryByAdmin(request, modelMap, response);
+
+		} else {
+			return null;
+		}
+
+	}
+	
+	/**
+	 * 确认考勤数据
+	 * @param request
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping(value = "/confirmAttendanceData.do")
+	public String confirmAttendanceData(HttpServletRequest request,
+			ModelMap modelMap, HttpServletResponse response) {
+
+		String every_month = request.getParameter("every_month");
+		String oa = request.getParameter("oa");
+		String user_name = request.getParameter("user_name");
+
+		if (every_month != null && oa != null) {
+
+			boolean result = ConfirmRecordService.confirmAttendanceData(every_month, oa);
+			if(result){
+				
+				request.setAttribute("oa", oa);
+				request.setAttribute("every_month", every_month);
+				request.setAttribute("user_name", user_name);
+				return getPersonSalary(request, modelMap);
+				
+			}else{
+				
+				modelMap.addAttribute("err", "有待处理数据，请处理完成!");
+				return "forward";
+			}
 
 		} else {
 			return null;

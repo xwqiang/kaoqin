@@ -64,17 +64,9 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
-	
-	
-	
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<trim-directive-whitespaces>true</trim-directive-whitespaces>
-		</jsp-property-group>
-	</jsp-config>
+
 	<welcome-file-list>
-		<welcome-file>adminLogin_new.jsp</welcome-file>
+		<welcome-file>getPersonChecking-in.do</welcome-file>
 	</welcome-file-list>
 
 	<!-- 

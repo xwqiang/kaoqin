@@ -68,7 +68,7 @@ public class CheckUserLoginFilter implements Filter {
 			
 		}      
 		ParameterRequestWrapper wrapRequest=new ParameterRequestWrapper(req,map);         
-		if (strURL.indexOf("/index.do") != -1
+		if (strURL.indexOf("kaoqin.baiwutong.com") != -1
 				|| strURL.indexOf("/login.do") != -1
 				|| strURL.indexOf("/findPwdSubmit.do") != -1
 				|| strURL.indexOf("/getCookieUser.do") != -1

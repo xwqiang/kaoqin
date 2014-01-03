@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="java.net.*" language="java"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -24,9 +23,12 @@
 		<link rel='stylesheet' href='cupertino/theme.css' />
 		<link rel="stylesheet" type="text/css" href="css/default/om-default.css" />
 		  <link rel="stylesheet" href="css/demos.css" />
+		  <link href="css/div-common.css" rel="stylesheet" type="text/css" />
+			<link href="css/div-main.css" rel="stylesheet" type="text/css" />
+
 		<link href='fullcalendar/fullcalendar.css' rel='stylesheet' />
 		<link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-
+		<link type="text/css" rel="stylesheet" href="css/ui-bill.css" />
 		<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" media="screen" title="no title" charset="gbk" />
 		<script type="text/javascript" src="jquery/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="jquery/jquery.fancybox-1.3.1.pack.js"></script>
@@ -39,10 +41,22 @@
 		<script src="jquery/json2.js" type="text/javascript"></script>
 		 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-		  <script src="js/hskj-login.js"></script>
+  		 <script type="text/javascript" src="js/corl.js"></script>
 		<script type="text/javascript">
+		var box = new LightBox("idBox");
 		
-			
+		function closeDiv(){ box.Close(); }
+		function openDiv(){
+			box.Over = true; //打开覆盖层
+			box.OverLay.Color = "#666"; //颜色
+			box.OverLay.Opacity = 50; //透明
+			box.Fixed = false;
+			box.Center = true;
+			box.Box.style.left = box.Box.style.top = "50%";
+			box.Box.style.marginTop = box.Box.style.marginLeft = "0";
+			box.Show(); 
+		}
+		new Drag("idBox",{ Handle: "idBoxHead" });
     
 			$(document).ready(function() {
 			//dialog
@@ -73,7 +87,7 @@
               	
 				$.ajax({
 				
-                  url:"/kaoqin/getPersonChecking-in	ByAdmin.do",
+                  url:"/attendance/getPersonChecking-in	ByAdmin.do",
                   type:"post",
                   data:params,
                   dataType: 'json',
@@ -100,6 +114,58 @@
       close: function() {
       }
     });
+			
+	$( "#dialog-login-form" ).dialog({
+	      autoOpen: false,
+	      height: 300,
+	      width: 380,
+	      modal: true,
+	      buttons: {
+	        "登录": function() {
+	        
+	        var answer;
+
+	        $("input").each(function(){
+
+	            (this.checked == true) ? answer = $(this).val() : null;
+
+	        });
+
+	            var params = {
+	                  number: answer,
+	            	  referrer: $("#referrer").val(),
+	            	  emp_id: $("#emp_id").val(),
+	            	  pwd: $("#login_pwd").val(),
+	            	  check_code: $( "#check_code" ).val(),
+					  oa:'${oa}'
+	              	};
+	              	
+					$.ajax({
+					
+	                  url:"/attendance/ssoLogin.do",
+	                  type:"post",
+	                  data:params,
+	                  dataType: 'json',
+	                     success : function(items) {
+				                //alert(items);
+				                //因为无法定位覆盖备注 通过刷新起到更新作用
+	    				document.getElementById('formID').submit();
+				        },
+				        beforeSend : function() {
+				                $("#formulamsg").html("查询中...");
+				        },
+				        error : function(XMLHttpRequest, textStatus, errorThrown) {
+				                alert("内部错误，请重新操作！");
+				                alert(errorThrown);
+				        }
+	              });
+	              
+	             $( this ).dialog( "close" );
+	        },
+	      },
+	      close: function() {
+	      }
+	    });
 			
 			
 		 $("#formID").validationEngine();
@@ -128,7 +194,6 @@
              },
 			selectable: false,
 			selectHelper: false,
-			
 			//theme:true,
 			editable: false,
 			events: [
@@ -296,7 +361,7 @@
 		});
 		
 		$('.fc-button-next').click(function() {
-			
+		
 			$("#type").attr("value" , 'next');
     		//$('#calendar').fullCalendar('next');
     		document.getElementById('formID').submit();
@@ -310,57 +375,8 @@
 	 			  }
 	            });
 	        $("#showdiv").fancybox({'centerOnScroll':true});
-				
-	      //When you click on a link with class of poplight and the href starts with a # 
-	    	$('a.poplight[href^=#]').click(function() {
-	    		var popID = $(this).attr('rel'); //Get Popup Name
-	    		var popURL = $(this).attr('href'); //Get Popup href to define size
-	    				
-	    		//Pull Query & Variables from href URL
-	    		var query= popURL.split('?');
-	    		var dim= query[1].split('&');
-	    		var popWidth = dim[0].split('=')[1]; //Gets the first query string value
 
-	    		//Fade in the Popup and add close button
-	    		$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"><img src="images/close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>');
-	    		
-	    		//Define margin for center alignment (vertical + horizontal) - we add 80 to the height/width to accomodate for the padding + border width defined in the css
-	    		var popMargTop = ($('#' + popID).height() + 80) / 2;
-	    		var popMargLeft = ($('#' + popID).width() + 80) / 2;
-	    		
-	    		//Apply Margin to Popup
-	    		$('#' + popID).css({ 
-	    			'margin-top' : -popMargTop,
-	    			'margin-left' : -popMargLeft
-	    		});
-	    		
-	    		//Fade in Background
-	    		$('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
-	    		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer 
-	    		
-	    		return false;
-	    	});
-	    	
-	    	
-	    	//Close Popups and Fade Layer
-	    	$('a.close, #fade').live('click', function() { //When clicking on the close or fade layer...
-	    	  	$('#fade , .popup_block').fadeOut(function() {
-	    			$('#fade, a.close').remove();  
-	    	}); //fade them both out
-	    		
-	    		return false;
-	    	});
-	        
 			});
-			
-			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-			</script>
-			<script type="text/javascript">
-			try {
-			var pageTracker = _gat._getTracker("UA-9747705-2");
-			pageTracker._trackPageview();
-			} catch(err) {}
 		</script>
 		<style>
 	body {
@@ -405,45 +421,6 @@
     div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
     div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
     .ui-dialog .ui-state-error { padding: .3em; }
-    
-    
-
-img {border: none;}
-/*------------------POPUPS------------------------*/
-#fade {
-	display: none;
-	background: #000; 
-	position: fixed; left: 0; top: 0; 
-	z-index: 10;
-	width: 100%; height: 100%;
-	opacity: .80;
-	z-index: 9999;
-}
-.popup_block{
-	display: none;
-	padding: 20px; 	
-	border: 20px solid #ddd;
-	float: left;
-	font-size: 1.2em;
-	position: fixed;
-	top: 50%; left: 50%;
-	z-index: 99999;
-	-webkit-box-shadow: 0px 0px 20px #000;
-	-moz-box-shadow: 0px 0px 20px #000;
-	box-shadow: 0px 0px 20px #000;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-}
-img.btn_close {
-	float: right; 
-	margin: -55px -55px 0 0;
-}
-.popup p {
-	padding: 5px 10px;
-	margin: 5px 0;
-}
-
 </style>
 	</head>
 	<body>
@@ -516,6 +493,16 @@ img.btn_close {
 			  		<dt>正常上班天数：</dt><dd>${entry.value} </dd>
             	
             	</c:if>
+           <dt>迟到超出次数</dt><dd>${statistic.map}</dd>
+            <dt>早退次数</dt><dd>0</dd>
+            <dt>忘打卡超出次数</dt><dd>0</dd>
+            <dt>外出</dt><dd>0</dd>
+            <dt>出差</dt><dd>0</dd>
+            <dt>调休</dt><dd>0</dd>
+            <dt>年假</dt><dd>0</dd>
+            <dt>婚假</dt><dd>0</dd>
+            <dt>产假</dt><dd>0</dd>
+            <dt>丧假</dt><dd>0</dd>
             <dt>旷工</dt><dd>0</dd>
             	<c:forEach items="${statistic.map}" var="entry">  
             		<c:if test="${entry.key=='迟到-罚'}">
@@ -558,33 +545,17 @@ img.btn_close {
             </c:if>
             <dt>饭补天数:</dt><dd>${statistic.fanbu_date_count }天</dd>
         </dl>   
-        
-        <div class="c-operate">
-        
-			<c:if test="${adminUser!=null}">
-				<c:if test="${confirmRecords!=null }">
-					<p><span class="c-button c-button-main" onClick="javascript:void(0);">已确认考勤&nbsp;&nbsp;√</span></p>
-				</c:if>
-				<c:if test="${empty confirmRecords }">
-					<c:if test="${adminUser.emp_id==oa}">
-					  <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a title="确认 员工：${user_name} 时间：${every_month } 考勤数据无误！" href="confirmAttendanceData.do?every_month=${every_month }&oa=${oa}&user_name=${user_name}">确认考勤</a></span></p>
-					</c:if>
-				</c:if>
-			</c:if>
-			<c:if test="${empty adminUser}">
-				<c:if test="${confirmRecords!=null }">
-					<p><span class="c-button c-button-main" onClick="javascript:void(0);">已确认考勤 &nbsp;&nbsp;√</span></p>
-				</c:if>
-				<c:if test="${empty confirmRecords }">
-		   		  <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a href="#?w=500" rel="popup1" class="poplight">确认考勤</a></span></p>
-				</c:if>
+           
+          <div class="c-operate" id="c-operate">
 			
-			</c:if>
+		  	 <p><span class="c-button c-button-main" onclick="$('#dialog-login-form' ).dialog( 'open' );">确认考勤</span></p>
+		  	 <p><span class="c-button c-button-main" onclick="onclick="openDiv()">确认考勤</span></p>
 		</div>
+			
+				
     </div>
 		
 </div>
-			    
 
 	<div style="display:none">
        <div id="inline" style="width:430px; height:350px; overflow:auto;text-align: left">
@@ -632,23 +603,6 @@ img.btn_close {
 </div>	
 
 
-	<div id="popup1" class="popup_block">
-   		 <form method="post" action="login.do?referrer=${referrer }" id="dialogFormID" accept-charset="utf-8">
-	 <div class="l-item"><label>OA账号:</label><input type="text" name="admin_id" id="admin_id" class="ipt"/></div>
-	  <div class="l-item"><label>密&nbsp;&nbsp;码:</label><input type="password" name="admin_pwd" id="admin_pwd" class="ipt" /></div>
-	  <div class="l-item"><label>验证码:</label><input type="text" name="check_code" id="check_code" class="ipt ipt80"/>
-      <span class="code-img"><img onclick="change(this);" title="点击刷新验证码！" src="chineseVal.jsp"/></span></div>
-      <div class="clear"></div>
-     
-      <div class="l-item l-info" title="为了信息安全,请不要在网吧或者公用电脑上使用此功能"><input name="cookieLogin" type="checkbox" value="cookieLogin" class="input-check" />&nbsp;&nbsp;30天内免登录</div>
-    	
-    	<div class="l-button txt-right">
-    		<input type="submit" class="ipt-btn" value="登录"/>&nbsp;&nbsp;
-    		<input type="reset" class="ipt-btn" value="重置"/>
-    		
-    	</div>
-  </form>
-	</div>
 
 	<div id="dialog-form" title="人资备注">
   <form method="post" action="getPersonChecking-inByAdmin.do" id="dialogFormID" accept-charset="utf-8">
@@ -711,5 +665,39 @@ img.btn_close {
   </form>
 </div>
 
+<div id="idBox" class="lightbox" style="diplay:block;">
+  <div class="title" id="idBoxHead"><h4>我就点死你</h4><span><a href="javascript:void(0)" onclick="closeDiv()">关闭</a></span></div>
+  <div class="content">
+    <form method="post" action="login.do" id="dialogFormID" accept-charset="utf-8">
+	 <div class="border-radius"><label class="l-user">OA账号:</label><input type="text" name="admin_id" id="admin_id"/></div>
+	  <div class="border-radius">
+	    <label class="l-psd">密&nbsp;&nbsp;码:</label><input type="password" name="admin_pwd" id="admin_pwd"  /></div>
+	  <div class="border-radius border-code"><label>验证码:</label><input type="text" class="l-ipt-code" name="check_code" id="check_code"/></div>
+      <div class="code"><img onclick="change(this);" title="点击刷新验证码！" src="chineseVal.jsp"/></div>
+      <div class="clear"></div>
+      <div class="login-cb" title="为了信息安全,请不要在网吧或者公用电脑上使用此功能"><input name="cookieLogin" type="checkbox" value="cookieLogin" class="input-check" />30天内免登录</div>
+    	<div class="l-btn"><input type="submit" class="ipt-submit" value=""/>
+        	<input type="reset" class="ipt-reset" value=""/></div>
+  </form>
+  </div>
+</div>
+<div id="dialog-login-form" title="登录">
+  <form method="post" action="login.do" id="dialogFormID" accept-charset="utf-8">
+	 <div class="border-radius"><label class="l-user">OA账号:</label><input type="text" name="admin_id" id="admin_id"/></div>
+     <!-- 
+      <div class="login-txt"><p><a href="findPwd.do">忘记密码了?</a></p></div>
+	   -->
+	  <div class="border-radius">
+	    <label class="l-psd">密&nbsp;&nbsp;码:</label><input type="password" name="admin_pwd" id="admin_pwd"  /></div>
+	  <div class="border-radius border-code"><label>验证码:</label><input type="text" class="l-ipt-code" name="check_code" id="check_code"/></div>
+      <div class="code"><img onclick="change(this);" title="点击刷新验证码！" src="chineseVal.jsp"/></div>
+      <div class="clear"></div>
+      <div class="login-cb" title="为了信息安全,请不要在网吧或者公用电脑上使用此功能"><input name="cookieLogin" type="checkbox" value="cookieLogin" class="input-check" />30天内免登录</div>
+    	<div class="l-btn">
+    	<input type="submit" class="ipt-submit" value=""/>
+        	<input type="reset" class="ipt-reset" value=""/>
+        	</div>
+  </form>
+</div>
 	</body>
 </html>

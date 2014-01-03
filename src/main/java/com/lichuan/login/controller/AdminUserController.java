@@ -1,4 +1,4 @@
-package com.lichuan.attendance.controller;
+package com.lichuan.login.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,16 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.httpclient.HttpException;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.company.business.developInterface.util.MsgEmptyException;
 import com.lichuan.attendance.model.AdminUser;
 import com.lichuan.attendance.service.AdminUserService;
 import com.lichuan.login.util.CookieManager;
-import com.lichuan.util.DateUtil;
+import com.lichuan.login.util.LoginUtil;
 
 
 @Controller
@@ -30,7 +32,7 @@ public class AdminUserController {
 
 	@RequestMapping(value = "/login.do")
 	public String login(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
-		
+
 		String admin_id = request.getParameter("admin_id");
 		
 		if (null == admin_id) {
@@ -68,9 +70,11 @@ public class AdminUserController {
 			modelMap.addAttribute("err", "验证码不正确");
 			return "forward";
 		}
-
+		
+		
 		AdminUser adminUser = adminUserService.getInfoByEmpId(admin_id);
-
+		
+		
 		if (adminUser == null) {
 
 			modelMap.addAttribute("err", "账户不存在");
@@ -78,15 +82,31 @@ public class AdminUserController {
 		}
 		if (adminUser.getStatus() == 1) {
 			
-			modelMap.addAttribute("err", "账户状态关闭不能使用");
+			modelMap.addAttribute("err", "账户已关闭");
 			return "forward";
 		}
 
-		if (!admin_pwd.equals(adminUser.getAdmin_pwd())) {
-			
-			modelMap.addAttribute("err", "密码错误请重试");
-			return "forward";
-		} else {
+		try {
+			boolean loginResult = LoginUtil.validateUserInfo(admin_id,admin_pwd);
+			if(!loginResult){
+				modelMap.addAttribute("err", "密码错误请重试");
+				return "forward";
+			}
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (MsgEmptyException e) {
+			e.printStackTrace();
+		}
+		
+//		if (!admin_pwd.equals(adminUser.getAdmin_pwd())) {
+//			
+//			modelMap.addAttribute("err", "密码错误请重试");
+//			return "forward";
+//		} else {
 			
 			if(cookieLogin!=null && !cookieLogin.equals("")){
 				CookieManager.addCookie(response, CookieManager.PASSWORD,admin_pwd,60*60*24*30);
@@ -114,7 +134,7 @@ public class AdminUserController {
 				return "forward:/getPersonChecking-in.do";
 			}
 
-		}
+//		}
 
 	}
 	

@@ -35,6 +35,9 @@ public interface SalaryMapper {
 	@Select("SELECT sn,status,oa,user_name,id,every_date,every_month,type,comment,result,department,substring(checkin_time,12) as show_checkin_time,substring(checkout_time,12) as show_checkout_time FROM salary WHERE  user_name=#{user_name} order by department,user_name")
 	List<Salary> queryPersonSalary(Map<String,String> map);
 	
+	@Select("SELECT * FROM salary WHERE  oa=#{oa} and every_month=#{every_month} order by every_date")
+	List<Salary> queryPersonSalaryByOA(Map<String,String> map);
+	
 	// 按照user_name查询个人打卡记录
 	@Select("SELECT * FROM salary_detail WHERE user_name = #{user_name}")
 	List<SalaryDetail> getDetailListByName(String user_name);

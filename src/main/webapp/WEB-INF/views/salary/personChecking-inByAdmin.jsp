@@ -25,8 +25,6 @@
 		  <link rel="stylesheet" href="css/demos.css" />
 		<link href='fullcalendar/fullcalendar.css' rel='stylesheet' />
 		<link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-
-		<link type="text/css" rel="stylesheet" href="css/ui-bill.css" />
 		<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" media="screen" title="no title" charset="gbk" />
 		<script type="text/javascript" src="jquery/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="jquery/jquery.fancybox-1.3.1.pack.js"></script>
@@ -133,6 +131,7 @@
 							  
 							var selectdate = $.fullCalendar.formatDate(date, "yyyy-MM-dd");	
 							 $("#click_day").attr("value" , selectdate);
+							 $("#ui-id-1").html("人资备注，日期："+selectdate);
 							 $( "#dialog-form" ).dialog( "open" );
 
 						return true;
@@ -385,7 +384,7 @@
 		</div>
 		<div id="nav">
 			<ul>
-				<li><a href="getPersonChecking-in.do" class="current">个人考勤</a></li>
+				<li><a href="getPersonChecking-inByAdmin.do" class="current">个人考勤</a></li>
 				<li><a href="showAllAttendance.do?flag=admin">&nbsp;统计&nbsp;</a></li>
 			</ul>
 		</div>
@@ -536,6 +535,7 @@
 	<div id="dialog-form" title="人资备注">
   <form method="post" action="getPersonChecking-inByAdmin.do" id="dialogFormID" accept-charset="utf-8">
   <fieldset>
+  	
   <label for="reason">上午：</label>
     <select id="reason" name="reason">
        <option value="无">无</option>
@@ -588,6 +588,10 @@
 		<option value="忘签退">忘签退</option>
 		<option value="迟到-免">迟到-免</option>
 		<option value="迟到-罚">迟到-罚</option>
+		<option value="迟到-免 忘签到">迟到-免 忘签到</option>
+		<option value="迟到-免 忘签退">迟到-免 忘签退</option>
+		<option value="迟到-罚 忘签到">迟到-罚 忘签到</option>
+		<option value="迟到-罚 忘签退">迟到-罚 忘签退</option>
 		
     </select>
   </fieldset>

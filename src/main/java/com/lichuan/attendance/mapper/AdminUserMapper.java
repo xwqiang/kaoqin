@@ -37,8 +37,6 @@ public interface AdminUserMapper {
 	@Select("SELECT * FROM admin_user WHERE  status=0 and admin_id = #{admin_id}")
 	AdminUser getInfoByAdminId(String admin_id);
 	
-	@Select("SELECT * FROM admin_user WHERE  status=0 and emp_id = #{emp_id}")
-	AdminUser getInfoByEmpId(String admin_id);
 
 	@Select("SELECT * FROM admin_user WHERE  status=0 and admin_name = #{admin_name} limit 1")
 	AdminUser getInfoByAdminName(String admin_name);
@@ -60,8 +58,8 @@ public interface AdminUserMapper {
 			+ "email=#{email},status=#{status},admin_qp=#{admin_qp},emp_id=#{emp_id} WHERE sn=#{sn}")
 	int update(AdminUser form);
 
-	@Select("select * from admin_user where emp_id = #{emp_id}")
-	AdminUser getInfoByEmp_id(String emp_id);
+	@Select("SELECT * FROM admin_user WHERE emp_id = #{emp_id}")
+	AdminUser getInfoByEmpId(String emp_id);
 	
 	@Select("SELECT admin_id FROM admin_user WHERE emp_id = #{validateValue} or admin_id=#{validateValue}")
 	AdminUser getInfoByAdminIdOrEmpId(String validateValue);

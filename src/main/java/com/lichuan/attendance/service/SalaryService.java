@@ -51,6 +51,7 @@ public class SalaryService {
 		salaryMapper.updateStatus(map);
 	}
 	
+	
 	/*********************************************
 	 *	根据指定月份获取考勤列表
 	 * @author Administrator<lichuan3992413@gmail.com>
@@ -67,6 +68,7 @@ public class SalaryService {
 		}
 		return null;
 	}
+	
 	
 	/*********************************************
 	 *	根据指定月份，指定人名 获取考勤信息
@@ -95,6 +97,27 @@ public class SalaryService {
 		return null;
 	}
 	
+	/*********************************************
+	 *	根据指定月份，指定人名 获取考勤信息
+	 * @author Administrator<lichuan3992413@gmail.com>
+	 * Create at:   2013-10-17 下午09:47:55 
+	 * @param every_month
+	 * @param user_name
+	 * @return
+	 ********************************************/
+	public List<Salary> getPersonSalaryByOA(String every_month,String oa){
+		
+		if(every_month!=null&&oa!=null){
+			
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("every_month", every_month);
+			map.put("oa", oa);
+			
+			List<Salary> list = salaryMapper.queryPersonSalaryByOA(map);
+			return list;
+		}
+		return null;
+	}
 	/**
 	 * 处理备注
 	 * @param list
@@ -172,6 +195,97 @@ public class SalaryService {
 		salaryMapper.updateComment(map);
 	}
 	
+	
+	/**
+	 * 根据指定oa,指定日期,限制次数,，得出考勤结果，同时处理影响结果 
+	 * @param oa
+	 * @param every_date
+	 * @param limit 迟到免-允许次数
+	 * @return default/迟到-免/迟到-罚
+	 */
+	private String handleLate(String oa,String every_date,int limit){
+		
+		String every_month = PatternTool.getMatch(every_date, "(\\d{4}-\\d{2})-\\d{2}.*",1);
+		PersonStatistic stats = getPersonStatistics(every_month, oa);
+		
+		int inex = 1;//当前日期位置计数
+		//迟到-免次序，次数 会造成影响
+		int late = stats.getLate_absolve();//迟到-免次数
+		int late_fine = stats.getLate_fine();//迟到-罚
+//		//需算上备注日期是否包含迟到情况
+//		Salary salary = querySalaryByDate(oa, every_date);
+//		if(null!=salary){
+//			
+//			String currentResult = null;
+//			if(salary.getStatus()==0){
+//				currentResult = salary.getComment();
+//			}else {
+//				currentResult = salary.getResult();
+//			}
+//			if(null!=currentResult&&currentResult.contains("迟到")){
+//				late++;
+//			}
+//		}
+		if((late+late_fine)>=limit){
+			//超出3次，需根据次序进行处理
+			List<Salary> salaryList = getPersonSalaryByOA(every_month, oa);
+			if(null!=salaryList){
+				
+				int count=0;//从limit开始更新
+				boolean isFirstTime = true;//第一次
+				for(Salary each:salaryList){
+					
+					int status = each.getStatus();
+					String result = null;
+					if(status==0){
+						result = each.getComment();
+					}else{
+						result = each.getResult();
+					}
+					
+					if(null!=result&&result.contains("迟到-免")){
+
+						count++;
+						String each_every_date = each.getEvery_date();
+						if(every_date.compareTo(each_every_date)<0){
+							if(isFirstTime){
+								count++;
+								isFirstTime = false;
+							}
+							result = result.replace("迟到-免", "迟到-罚");
+							//更新
+							if(count>limit){
+								
+								Map<String,String> map  = new HashMap<String, String>();
+								map.put("oa", oa);
+								map.put("start_date", each_every_date);
+								map.put("end_date", each_every_date);
+//							    map.put("comment", "无打卡记录");
+								map.put("result", result);
+								
+								salaryMapper.updateResult(map);
+							}
+							
+						}else{
+							inex++;
+						}
+					}
+					
+				}
+			}
+		}else{
+			return "default";
+		}
+		
+		if(inex>limit){
+			return "迟到-罚";
+		}else{
+			return "迟到-罚";
+		}
+	}
+			
+		
+
 	/**
 	 * 更新人资标注结果
 	 * @param salary
@@ -181,18 +295,35 @@ public class SalaryService {
 	public void updateResult(Salary salary,String start_date,String end_date){
 		
 		Map<String,String> map  = new HashMap<String, String>();
-	
+		String every_month = PatternTool.getMatch(start_date, "(\\d{4}-\\d{2})-\\d{2}.*",1);
+
+		String result = salary.getResult();
+		
+		/********************************
+		 * 正确动态计算迟到规则有点负责，容后再写
+		 * *****************************
+		 */
+//		if(null!=result){
+//			//迟到-免次序，次数 会造成影响
+//			//超出3次，需根据次序进行处理
+//			String lateResult = handleLate(salary.getOa(), start_date, 3);
+//			if(!"default".equals(lateResult)){
+//				result = result.replace("迟到-免", lateResult);
+//			}
+//			
+//		}
 		map.put("oa", salary.getOa());
 		map.put("start_date", start_date);
 		map.put("end_date", end_date);
 		map.put("comment", "无打卡记录");
-		map.put("result", salary.getResult());
+		map.put("result", result);
+		int count = salaryMapper.updateResult(map);
 		
-		int result = salaryMapper.updateResult(map);
-		if(result==0){
-			AdminUser user = adminUserMapper.getInfoByEmp_id(salary.getOa());
+		if(count==0){
+			
+			AdminUser user = adminUserMapper.getInfoByEmpId(salary.getOa());
 			map.put("id", user.getCheck_id());
-			map.put("every_month", PatternTool.getMatch(start_date, "(\\d{4}-\\d{2})-\\d{2}.*",1));
+			map.put("every_month", every_month);
 			map.put("every_date", start_date);
 			map.put("user_name", user.getAdmin_name());
 			map.put("department", user.getDepartment());
@@ -227,6 +358,7 @@ public class SalaryService {
 		}
 		return null;
 	}
+	
 	public PersonCalendar getPersonCalendarByOaDate(String every_month,String oa,String every_date){
 		
 		if(every_month!=null&&oa!=null){
@@ -289,11 +421,9 @@ public class SalaryService {
 		return salaryMapper.getPersonAllLeaves(map);
 	}
 	
-	public List<PersonStatistic> getPersonStatistics(String every_month,String oa){
+	public PersonStatistic getPersonStatistics(String every_month,String oa){
 		
-		List<PersonStatistic> list = new ArrayList<PersonStatistic>();
-		list.add(getPersonStatistic(every_month,every_month, oa));
-		return list;
+		return getPersonStatistic(every_month,every_month, oa);
 	}
 
 	
@@ -375,7 +505,7 @@ public class SalaryService {
 		map.put("end_month", end_month);
 
 		
-		if(adminUsers!=null){
+		if(adminUsers!=null&&adminUsers.size()>0){
 			
 			List<String> oaList = new ArrayList<String>();
 			for(AdminUser each:adminUsers){
@@ -385,7 +515,13 @@ public class SalaryService {
 			
 			String str_oaList = StringUtils.join(oaList.toArray(), "','");
 			map.put("oaList", "'"+str_oaList+"'");
-			List<PersonStatistic> list = statisticInfoMapper.fetchDatas(map);
+			List<PersonStatistic> list  = null;
+			if(!start_month.equals(end_month)){
+				list = statisticInfoMapper.fetchDatas(map);
+			}else{
+				
+				list = statisticInfoMapper.fetchData(map);
+			}
 			if(list.size()<1){
 				return null;
 			}
@@ -395,6 +531,9 @@ public class SalaryService {
 		return null;
 	}
 	
+//	private void addConfirmTime(list){
+//		
+//	}
 	/**
 	 * 统计加工
 	 * @param stat
@@ -544,6 +683,13 @@ public class SalaryService {
 		stat.setMap(statMap);
 	}
 	
+	/**
+	 * 根据指定oa，月份段统计
+	 * @param start_month
+	 * @param end_month
+	 * @param oa
+	 * @return
+	 */
 	public PersonStatistic getPersonStatistic(String start_month,String end_month,String oa){
 		
 		if(start_month!=null&&end_month!=null&&oa!=null){

@@ -28,10 +28,6 @@ public class AdminUserService {
 		return list;
 	}
 	
-	public AdminUser getInfoByEmp_id(String emp_id) {
-
-		return adminUserMapper.getInfoByEmp_id(emp_id);
-	}
 	
 	// 通过SN获取用户信息
 	public AdminUser getInfoBySn(String sn) {

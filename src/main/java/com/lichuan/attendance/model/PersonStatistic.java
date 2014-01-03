@@ -22,6 +22,13 @@ public class PersonStatistic{
 	private double holidays_count;//假日
 	private double overtime_count;//休息日加班
 	private double workdate_overtime_count;//工作日加班
+	private String confirm_time;
+	public String getConfirm_time() {
+		return confirm_time;
+	}
+	public void setConfirm_time(String confirm_time) {
+		this.confirm_time = confirm_time;
+	}
 	public double getWorkdate_overtime_count() {
 		return workdate_overtime_count;
 	}

@@ -346,7 +346,7 @@
 		</div>
 		<!--搜索部分 start-->
 		<div id="toolbar">
-			<form method="post" action="showAllAttendance.do?flag=admin" id="formID" accept-charset="utf-8">
+			<form method="post" action="showAllAttendance.do" id="formID" accept-charset="utf-8">
 				
 				<span> 
 					<!-- 

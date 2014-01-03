@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="true" threshold="all">
+	<appender name="infoLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="File" value="info.log"/>
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss}  %5p  %x - %m%n" />
+		</layout>
+	</appender>
+	
+<!-- 	<appender name="mail.MAIL" class="org.apache.log4j.net.SMTPAppender">
+	  <param name="threshold" value="ERROR"/>
+	  <param name="BufferSize" value="1"/>
+	  <param name="SMTPHost" value="mail.hongshutech.com"/>
+	   <param name="From" value="hhb@hongshutech.com"/>
+	    <param name="SMTPUsername" value="hhb@hongshutech.com"/>
+	  <param name="SMTPPassword" value="Hhb522309296"/>
+	  <param name="Subject" value="综合管理平台系统错误邮件"/>
+	  <param name="To" value="hhb@hongshutech.com"/>
+	  <layout class="org.apache.log4j.PatternLayout">
+	  <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss.SSS} [%p]-[%c] %m%n" />
+	  </layout>
+   </appender>  -->
+		<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout"> <param
+		name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss} %m (%F:%L) \n"
+		/> </layout> 
+		</appender>
+
+	<logger name="smsLog">
+		<level value="DEBUG" />
+		<appender-ref ref="errorLog" />
+	</logger>
+
+	<root>
+		<priority value="info" />
+		<appender-ref ref="infoLog" />
+		<appender-ref ref="STDOUT" />
+		<priority value="error" />
+		<appender-ref ref="mail.MAIL" />
+	</root>
+
+</log4j:configuration>

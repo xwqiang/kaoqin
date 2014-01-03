@@ -467,6 +467,11 @@
 					<th width="45">
 						待处理
 					</th> 
+					<c:if test="${start_month==end_month }">
+					<th width="50">
+						确认考勤
+					</th> 
+					</c:if>
 					
 				</tr>
 					<c:forEach var="statistic" items="${list}" varStatus="status">
@@ -578,10 +583,18 @@
 									</c:if>
 								</td>
 								<td>
-								<c:if test="${statistic.undetermined_count!=0}">
-									<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-inByAdmin.do?every_month=${every_month }&user_name=${statistic.user_name }">${statistic.undetermined_count}</a>
+									<c:if test="${statistic.undetermined_count!=0}">
+										<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-inByAdmin.do?every_month=${every_month }&user_name=${statistic.user_name }">${statistic.undetermined_count}</a>
 									</c:if>
 								</td>
+									<c:if test="${start_month==end_month }">
+									
+									<td>
+										<c:if test="${empty statistic.confirm_time}">
+											<a title="查看明细" style="color: red;font-weight: bold;" href="getPersonChecking-inByAdmin.do?every_month=${every_month }&user_name=${statistic.user_name }">否</a>
+										</c:if>
+									</td>
+									</c:if>
 						</tr>
 					</c:forEach>	
 					<c:if test="${totalStats!=null}">
@@ -690,6 +703,10 @@
 									</p>
 									</c:if>
 								</td>
+								<c:if test="${start_month==end_month }">
+										<td>
+										</td>
+									</c:if>
 						</tr>
 						</c:if>
 			</table>

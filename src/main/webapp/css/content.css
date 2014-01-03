@@ -158,3 +158,24 @@ a.btn-tag:hover{ background:#a0dcff; color:#FFF; text-decoration:none;}
 #header{ height:30px; width:100%; background:#5d6d7d; margin-bottom:20px;}
 	.header{ width:1000px; margin:0 auto; text-align:right; color:#FFF; line-height:30px;}
 	.header a{ color:#FFF; text-decoration:none;}
+	
+#popup1{ width:243px; height:300px; position:absolute;}
+.hidden{display:none;}
+.popup_block { padding:20px 40px; text-align:left; color:#444; font-size:14px;
+	background:#fff url(../images/wel-bg.gif) no-repeat bottom right;}
+.popup_block .txt-right{ text-align:right;}
+.popup_block form{ width:228px; margin:0;}
+.popup_block .l-item{ margin:12px 0; overflow:hidden;}
+.l-item label{ width:60px; display:inline-block;}
+.l-item .ipt{ width:160px; margin:0; padding:3px; border:1px solid #CFCFCF;}
+.l-item .ipt80{ width:80px;}
+.l-item .code-img{ float:right; height:24px;}
+.l-item .code-img img{height:30px; width:70px;}
+.popup_block .l-info{ color:#666; background:#fff;}
+.l-info a{ color:#666; text-decoration:none;}
+.l-info a:hover{ color:#333; text-decoration:underline;}
+.l-button .ipt-btn{ height:30px; padding:6px 30px; color:#FFF; background:#3B88A8; border:none;
+	cursor:pointer;
+	border-radius:4px;
+	}
+.l-button .ipt-btn:hover{ background:#2E6E88;}
