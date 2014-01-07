@@ -27,7 +27,7 @@ public interface SalaryMapper {
 	@Select("SELECT * FROM salary WHERE every_month = #{every_month} order by department,user_name")
 	List<Salary> queryListByMonth(String every_month);
 	
-	@Select("SELECT * FROM salary WHERE status=0 and oa=#{oa} and every_date = #{every_date} ")
+	@Select("SELECT * FROM salary WHERE oa=#{oa} and every_date = #{every_date} ")
 	Salary querySalaryByDate(Map<String,String> map);
 	
 	// 按照every_month,user_name进行查询记录

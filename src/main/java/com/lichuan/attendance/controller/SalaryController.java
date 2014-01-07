@@ -21,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.lichuan.attendance.model.AdminUser;
 import com.lichuan.attendance.model.ConfirmRecord;
 import com.lichuan.attendance.model.PersonCalendar;
+import com.lichuan.attendance.model.PersonInfo;
 import com.lichuan.attendance.model.PersonStatistic;
 import com.lichuan.attendance.model.Salary;
 import com.lichuan.attendance.service.AdminUserService;
 import com.lichuan.attendance.service.ConfirmRecordService;
+import com.lichuan.attendance.service.PersonInfoService;
 import com.lichuan.attendance.service.SalaryService;
+import com.lichuan.util.AnnualLeaveAlgorithm;
 import com.lichuan.util.DateUtil;
 import com.lichuan.util.ExcelUtils;
 
@@ -48,6 +51,8 @@ public class SalaryController {
 	private SalaryService salaryService;
 	@Autowired
 	private ConfirmRecordService ConfirmRecordService;
+	@Autowired
+	private PersonInfoService personInfoService;
 
 	/**
 	 * 获取个人考勤记录
@@ -120,6 +125,9 @@ public class SalaryController {
 				every_month, oa);
 
 		List<ConfirmRecord> confirmRecords = ConfirmRecordService.queryListByOAMonth(every_month, oa);
+		//获取个人信息
+		PersonInfo personInfo = personInfoService.getInfoByOA(oa);
+		
 		
 		String[] arr = every_month.split("-");
 
@@ -132,6 +140,7 @@ public class SalaryController {
 				.addAttribute("statistic", statistic)
 				.addAttribute("confirmRecords", confirmRecords)
 				.addAttribute("referrer",request.getRequestURL())
+				.addAttribute("personInfo",personInfo)
 				.addAttribute("leaves", leaves);
 
 		return "salary/personChecking-in";
@@ -296,15 +305,21 @@ public class SalaryController {
 			}
 
 			salary.setResult(sb_comment.toString());
-
-			salaryService.updateResult(salary, click_day, click_day);
+			
+			boolean updateResult = salaryService.updateResult(salary, click_day, click_day);
 
 			/* RETURN VALUE */
 			String[] json = new String[4];
-			json[0] = "true"; // RETURN TRUE
+//			json[0] = "true"; // RETURN TRUE
+			json[0] = String.valueOf(updateResult); // RETURN TRUE
 			json[1] = oa;
 			json[2] = click_day;
-			json[3] = reason;
+			if(!updateResult){
+				
+				json[3] = "年假不够，或更新失败！";
+			}else{
+				json[3] = reason;
+			}
 			JSONArray jsonArray = JSONArray.fromObject(json);
 			response.setContentType("text/json; charset=UTF-8");
 			PrintWriter out = null;
@@ -375,6 +390,9 @@ public class SalaryController {
 		List<PersonCalendar> leaves = salaryService.getPersonAllLeaves(
 				every_month, oa);
 
+		//获取个人信息
+		PersonInfo personInfo = personInfoService.getInfoByOA(oa);
+		
 		String[] arr = every_month.split("-");
 
 		modelMap.addAttribute("list", list)
@@ -384,7 +402,9 @@ public class SalaryController {
 				.addAttribute("month", (Integer.valueOf(arr[1]) - 1))
 				.addAttribute("calendars", calendars)
 				.addAttribute("statistic", statistic)
+				.addAttribute("personInfo",personInfo)
 				.addAttribute("leaves", leaves);
+		
 		return "salary/personChecking-inByAdmin";
 
 	}

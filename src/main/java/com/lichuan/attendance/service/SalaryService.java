@@ -18,6 +18,7 @@ import com.lichuan.attendance.mapper.SalaryMapper;
 import com.lichuan.attendance.mapper.StatisticInfoMapper;
 import com.lichuan.attendance.model.AdminUser;
 import com.lichuan.attendance.model.PersonCalendar;
+import com.lichuan.attendance.model.PersonInfo;
 import com.lichuan.attendance.model.PersonStatistic;
 import com.lichuan.attendance.model.Salary;
 import com.lichuan.attendance.model.SalaryDetail;
@@ -33,8 +34,9 @@ public class SalaryService {
 	@Autowired
 	private AdminUserMapper adminUserMapper;
 	@Autowired
-	StatisticInfoMapper statisticInfoMapper;
-	
+	private StatisticInfoMapper statisticInfoMapper;
+	@Autowired
+	private PersonInfoService personInfoService;
 	
 	/**
 	 * 根据oa，月份更新状态为0
@@ -292,15 +294,16 @@ public class SalaryService {
 	 * @param start_date
 	 * @param end_date
 	 */
-	public void updateResult(Salary salary,String start_date,String end_date){
+	public boolean updateResult(Salary salary,String start_date,String end_date){
 		
+		boolean updateResult = false;
 		Map<String,String> map  = new HashMap<String, String>();
 		String every_month = PatternTool.getMatch(start_date, "(\\d{4}-\\d{2})-\\d{2}.*",1);
 
 		String result = salary.getResult();
 		
 		/********************************
-		 * 正确动态计算迟到规则有点负责，容后再写
+		 * 正确动态计算迟到规则有点复杂，容后再写
 		 * *****************************
 		 */
 //		if(null!=result){
@@ -317,8 +320,15 @@ public class SalaryService {
 		map.put("end_date", end_date);
 		map.put("comment", "无打卡记录");
 		map.put("result", result);
-		int count = salaryMapper.updateResult(map);
 		
+		double beforeAnnualLeave = caluateAnnualLeave(salary.getOa(), start_date);
+		double afterAnnualLeave = caluateAnnualLeaveByResult(result);
+//		afterAnnualLeave = caluateAnnualLeave(salary.getOa(), start_date);
+		updateResult  = personInfoService.updateAnnualLeave(salary.getOa(), start_date, (afterAnnualLeave-beforeAnnualLeave));//更新年假数据
+		if(!updateResult)
+			return updateResult;
+		
+		int count = salaryMapper.updateResult(map);
 		if(count==0){
 			
 			AdminUser user = adminUserMapper.getInfoByEmpId(salary.getOa());
@@ -329,8 +339,53 @@ public class SalaryService {
 			map.put("department", user.getDepartment());
 			//插入操作
 			salaryMapper.insertResult(map);
+			
 		}
 		System.out.println(result);
+		return updateResult;
+	}
+	
+	/**
+	 * 计算备注年假数量
+	 * @param result
+	 * @return
+	 */
+	public double caluateAnnualLeaveByResult(String result){
+		
+			
+			if(null!=result){
+				if(result.contains("年假一天")){
+					return 1;
+				}
+				if(result.contains("年假半天")){
+					return 0.5;
+				}
+			}
+		return 0;
+	}
+	
+	/**
+	 * 计算备注年假数量
+	 * @param result
+	 * @return
+	 */
+	public double caluateAnnualLeave(String oa,String every_date){
+		
+		Salary tmpSalary = querySalaryByDate(oa, every_date);
+		
+		double annualLeave = 0;
+		if(null!=tmpSalary){
+			if(tmpSalary.getStatus()==0){
+				
+				annualLeave = caluateAnnualLeaveByResult(tmpSalary.getComment());
+			}else{
+				
+				annualLeave = caluateAnnualLeaveByResult(tmpSalary.getResult());
+			}
+		}
+			
+			
+		return annualLeave;
 	}
 	
 	public List<SalaryDetail> getDetailListByName(String userName){

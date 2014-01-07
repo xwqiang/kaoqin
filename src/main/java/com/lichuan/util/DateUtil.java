@@ -414,11 +414,54 @@ public class DateUtil {
 
 	}
 
+	/**
+	 * 比较两个日期年数
+	 * @param startDate
+	 * @param endDate
+	 * @param format
+	 * @return
+	 * @throws ParseException
+	 */
+	public static int getIntervalYear(String startDate,String endDate,SimpleDateFormat format) throws ParseException{
+			
+//		 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			Calendar startCal = Calendar.getInstance();
+			Calendar endCal = Calendar.getInstance();
+			startCal.setTime(format.parse(startDate));
+			endCal.setTime(format.parse(endDate));
+			int startYear = startCal.get(Calendar.YEAR);
+			int endYear = endCal.get(Calendar.YEAR);
+			
+			return endYear-startYear;
+	}
+	/**
+	 * 比较两个日期间隔天数
+	 * @param startDate
+	 * @param endDate
+	 * @param format
+	 * @return
+	 * @throws ParseException
+	 */
+	public static int getIntervalDate(String startDate,String endDate,SimpleDateFormat format) throws ParseException{
+			
+//	 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		startCal.setTime(format.parse(startDate));
+		endCal.setTime(format.parse(endDate));
+		long start = startCal.getTimeInMillis();
+		long end = endCal.getTimeInMillis();
+		return (int)((end-start)/(1000*60*60*24));
+	}
 	public static void main(String[] args) throws ParseException {
 
-		System.out.println(getNow());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println(DateUtil.getIntervalDate("2010-07-13",sdf.format(Calendar.getInstance().getTime()), sdf));
 	}
 
+	
 	public static String getMonth(String month) {
 
 		String result = null;

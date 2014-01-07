@@ -25,6 +25,9 @@ public class DataHandler {
 	@Autowired 
 	private SalaryService salaryService;
 	
+	/**
+	 * 计算更新打卡备注，统计
+	 */
 	public void initData(){
         	
 
@@ -34,9 +37,15 @@ public class DataHandler {
 		
 		System.out.println("开始初始化 "+every_month+" 数据!");
         
-		salaryService.processDataHandle("2013-12");
+		salaryService.processDataHandle(every_month);
 
 		System.out.println(every_month+" 初始化完成");
     }
 
+	/**
+	 * 计算更新年假数据
+	 */
+	public void initAnnualLeave(){
+		
+	}
 }

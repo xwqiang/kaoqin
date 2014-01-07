@@ -47,6 +47,10 @@ public interface AdminUserMapper {
 	// 获取Admin_User列表
 	@Select("SELECT * FROM admin_user where status=0 order by admin_name")
 	List<AdminUser> getList();
+	
+	// 获取Admin_User列表
+	@Select("SELECT a.admin_id,a.admin_name,a.department,a.check_id,a.emp_id FROM admin_user a,person_info p where ((#{every_month}>=p.entry_time and p.status=0) or (#{every_month}>=p.entry_time and #{every_month}<=p.turnover_time and p.status=1)) and a.emp_id=p.oa order by a.admin_name")
+	List<AdminUser> getListByInService(String every_month);
 	// 获取部门列表
 	@Select("SELECT department FROM admin_user where status=0 group by department")
 	List<AdminUser> getDepartmentList();

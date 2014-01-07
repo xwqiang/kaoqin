@@ -83,6 +83,13 @@ public class AdminUserService {
 		return adminUserMapper.getList();
 	}
 	
+	// 根据月份与在职时间段情况，获取Admin_user列表
+	public List<AdminUser> getListByInService(String every_month) {
+		
+		return adminUserMapper.getListByInService(every_month);
+	}
+	
+
 	// 获取Admin_user列表
 	public List<AdminUser> getDepartmentList() {
 		return adminUserMapper.getDepartmentList();
