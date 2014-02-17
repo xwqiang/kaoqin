@@ -390,6 +390,7 @@ public class SalaryController {
 		List<PersonCalendar> leaves = salaryService.getPersonAllLeaves(
 				every_month, oa);
 
+		List<ConfirmRecord> confirmRecords = ConfirmRecordService.queryListByOAMonth(every_month, oa);
 		//获取个人信息
 		PersonInfo personInfo = personInfoService.getInfoByOA(oa);
 		
@@ -403,8 +404,10 @@ public class SalaryController {
 				.addAttribute("calendars", calendars)
 				.addAttribute("statistic", statistic)
 				.addAttribute("personInfo",personInfo)
+				.addAttribute("confirmRecords", confirmRecords)
 				.addAttribute("leaves", leaves);
 		
+
 		return "salary/personChecking-inByAdmin";
 
 	}

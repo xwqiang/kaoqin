@@ -117,7 +117,7 @@ public class PersonInfoService {
 				//徐限定剩余总年假，是否满足
 				double total = info.getTotalSurPlusAnnualLeave();
 				
-				if(total<AnnualLeaveCount){
+				if(total<AnnualLeaveCount&&AnnualLeaveCount>0){
 					return updateResult;
 				}
 				
@@ -181,20 +181,24 @@ public class PersonInfoService {
 						yearMap.put("oa", oa);
 						yearMap.put("every_year", year);
 						yearMap.put("annual_leave", ali.getAnnual_leave());
-						if(ali.getAnnual_leave()<(ali.getAnnual_leave()-AnnualLeaveCount)){
+						if(ali.getAnnual_leave()<(ali.getSurplus_annual_leave()-AnnualLeaveCount)){
 							Map map  = new HashMap();
 							map.put("oa", oa);
 							map.put("every_year", String.valueOf(Integer.valueOf(year)-1));
 							map.put("annual_leave", lastYearAli.getAnnual_leave());
 							map.put("status", 0);
-							map.put("surplus_annual_leave", 0-AnnualLeaveCount);
+							map.put("surplus_annual_leave", ali.getSurplus_annual_leave()-AnnualLeaveCount-ali.getAnnual_leave());
 							personInfoMapper.updateAnnualLeave(map);//更新去年年假情况
+							
+							yearMap.put("status", 0);
+							yearMap.put("surplus_annual_leave", ali.getAnnual_leave());
+							
 						}else{
 							
-							yearMap.put("surplus_annual_leave", ali.getAnnual_leave()-AnnualLeaveCount);
+							yearMap.put("surplus_annual_leave", ali.getSurplus_annual_leave()-AnnualLeaveCount);
 						}
 						
-						if((ali.getAnnual_leave()-AnnualLeaveCount)==0){
+						if((ali.getSurplus_annual_leave()-AnnualLeaveCount)==0){
 							yearMap.put("status", 1);
 						
 						}else{

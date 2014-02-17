@@ -1,0 +1,38 @@
+﻿<!DOCTYPE head PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">  
+<html>  
+<head>  
+<title></title>  
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">  
+<style type="text/css"> 
+
+body {  
+	font-size:14px;
+	font-family:Tahoma, Geneva, sans-serif;
+	text-align:center;
+	color:#333;
+} 
+.main{ width:600px; text-align:left;
+	border:1px solid #DFDFDF;
+	padding:20px; background:#FFF;}
+p span{color:#06C; font-weight:bold;}
+h3{ margin:0 0 20px 0; color:#06C; font-size:16px;}
+.footer{ color:#666; font-size:12px;}
+</style>  
+</head>  
+<body>  
+<div class="main">
+    <h3>综合平台--找回密码</h3>
+       <h4>Hi, ${userName}：</h4>  
+       <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你好,你在综合平台帐户 <span>${userId}</span> 下的密码为 <span>${password}</span>，请牢记。</p><br/><br/><br/>                           
+       <p style="border-bottom:1px solid #CCC; padding-bottom:10px; width:180px;">${sendTime}</p>
+        <div class="footer">
+        <p style="border-bottom:1px dashed #999; padding-bottom:10px; width:180px;">Best Regards</p>
+        <p>技术部&nbsp;&nbsp;研发组</p>
+        <p>北京红树科技有限公司</p>
+        <p>E-Mail：yf@hongshutech.com</p>
+        <p style="border-bottom:1px dashed #999; padding-bottom:10px; width:200px;">此邮件为系统自动发出，请勿回复。</p>
+        <p>信息改变生活，服务创造价值！</p>
+  </div>
+</div>
+</body>  
+</html>

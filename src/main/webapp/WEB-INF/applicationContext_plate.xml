@@ -85,4 +85,5 @@
 		</list>   
 		</property>
 	</bean> 
+	<import resource="send_email_info.xml"/>
 </beans>

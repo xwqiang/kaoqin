@@ -11,6 +11,7 @@ import com.lichuan.attendance.mapper.ConfirmRecordMapper;
 import com.lichuan.attendance.model.AdminUser;
 import com.lichuan.attendance.model.ConfirmRecord;
 import com.lichuan.attendance.model.PersonStatistic;
+import com.lichuan.mail.service.MailSendService;
 
 @Service
 public class ConfirmRecordService {
@@ -21,7 +22,8 @@ public class ConfirmRecordService {
 	AdminUserService adminUserService;
 	@Autowired
 	SalaryService salaryService;
-	
+	@Autowired
+	MailSendService mailSendService;
 	/**
 	 * 确认考勤数据
 	 * @param every_month
@@ -47,6 +49,21 @@ public class ConfirmRecordService {
 		}
 	}
 	
+	public void emailNotice(String every_month){
+		
+		List<AdminUser> adminUsers = adminUserService.getUnconfirmUsers(every_month);
+		if(null!=adminUsers){
+			for(AdminUser user:adminUsers){
+				
+				try {
+					mailSendService.sendHtmlEmail("lichuan3992413@126.com", "请确认考勤数据",every_month,user);
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	/**
 	 * 校验考勤数据是否确认
 	 *    有待处理数>0即false

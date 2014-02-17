@@ -80,9 +80,10 @@ public class AnnualLeaveAlgorithm {
 		
 		return map;
 	}
+	
 	public static void main(String[] args) throws ParseException {
 		
-		System.out.println(calculate("1989-07-10","2010-07-12" ));
+		System.out.println(calculate("2010-07-10","2013-07-23" ));
 		
 	}
 	

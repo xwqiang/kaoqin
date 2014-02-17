@@ -381,7 +381,8 @@
 				<span><input class="grid-button" type="submit" value="查 询" />
 					&nbsp;&nbsp;&nbsp;&nbsp;<a href="exportAllAttendance.do?department=${department }&start_month=${start_month }&end_month=${end_month }&user_name=${user_name }" class="link_red">
 						导出excel数据</a> 
-						</span>
+				</span>
+				<p><span class="c-button c-button-main" onClick="javascript:void(0);"><a title="群发为确认考勤员工提醒邮件！" href="mailNotice.do?every_month=${end_month }">邮件群发提醒</a></span></p>
 			</form>
 			<!--按钮-->
 		</div>

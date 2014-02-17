@@ -320,10 +320,11 @@ public class SalaryService {
 		map.put("end_date", end_date);
 		map.put("comment", "无打卡记录");
 		map.put("result", result);
-		
+
+			
 		double beforeAnnualLeave = caluateAnnualLeave(salary.getOa(), start_date);
 		double afterAnnualLeave = caluateAnnualLeaveByResult(result);
-//		afterAnnualLeave = caluateAnnualLeave(salary.getOa(), start_date);
+	//	afterAnnualLeave = caluateAnnualLeave(salary.getOa(), start_date);
 		updateResult  = personInfoService.updateAnnualLeave(salary.getOa(), start_date, (afterAnnualLeave-beforeAnnualLeave));//更新年假数据
 		if(!updateResult)
 			return updateResult;
@@ -342,6 +343,7 @@ public class SalaryService {
 			
 		}
 		System.out.println(result);
+		updateResult = true;
 		return updateResult;
 	}
 	
@@ -894,9 +896,10 @@ public class SalaryService {
 				}
 				
 				double tiaoxiujia_count = 0;
-				if(kv.containsKey("调休假")){
+				if(kv.containsKey("调休")){
 					
-					tiaoxiujia_count = kv.get("调休假");
+//					tiaoxiujia_count = kv.get("调休假");
+					tiaoxiujia_count = kv.get("调休");
 				}
 				
 				double nianjia_count = 0;

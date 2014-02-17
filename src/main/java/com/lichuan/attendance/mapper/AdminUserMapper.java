@@ -1,11 +1,15 @@
 package com.lichuan.attendance.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
+
 import com.lichuan.attendance.model.AdminUser;
+import com.lichuan.attendance.model.PersonStatistic;
 
 /**
  * 
@@ -71,4 +75,7 @@ public interface AdminUserMapper {
 //	@Update("update admin_user a,salary s set s.oa=a.emp_id ,s.id=a.check_id where a.admin_name=s.user_name and (s.oa is null or id is null)")
 	@Update("update salary s,admin_user a set s.oa=a.emp_id ,s.id=a.check_id where s.user_name = a.admin_name")
 	int updateOA();
+
+	@Select("SELECT  * FROM admin_user  where emp_id not in(select oa from confirm_record where every_month=#{every_month} )")
+	List<AdminUser> getUnconfirmUsers(String every_month);
 }

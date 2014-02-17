@@ -581,22 +581,24 @@ img.btn_close {
 			
 			</c:if>
 		</div>
-   
-   		 <div class="c-operate">
-        	<span>入职时间：${personInfo.entry_time }</span>
-        </div>
-        <div class="c-operate">
-        
-        	<c:forEach var="each" items="${personInfo.list}" varStatus="status">
-        		<p title="${each.every_year}年,总年假:${each.annual_leave},剩余年假:${each.surplus_annual_leave}"> <c:out value="${each.every_year}" />年-年假：<c:out value="${each.surplus_annual_leave}"/>/<c:out value="${each.annual_leave}" /> 天 </p>
-        	</c:forEach>
-        	<!-- 
-        	<c:forEach items="${personInfo.map}" var="entry">  
-			<p> <c:out value="${entry.key}" />年---年假：<c:out value="${entry.value}" /> 天 </p>
-			   
-			</c:forEach>  
-			 -->
-		</div>
+   		<c:if test="${adminUser.admin_name==user_name}">
+   			
+	   		 <div class="c-operate">
+	        	<span>入职时间：${personInfo.entry_time }</span>
+	        </div>
+	        <div class="c-operate">
+	        
+	        	<c:forEach var="each" items="${personInfo.list}" varStatus="status">
+	        		<p title="${each.every_year}年,总年假:${each.annual_leave},剩余年假:${each.surplus_annual_leave}"> <c:out value="${each.every_year}" />年-年假：<c:out value="${each.surplus_annual_leave}"/>/<c:out value="${each.annual_leave}" /> 天 </p>
+	        	</c:forEach>
+	        	<!-- 
+	        	<c:forEach items="${personInfo.map}" var="entry">  
+				<p> <c:out value="${entry.key}" />年---年假：<c:out value="${entry.value}" /> 天 </p>
+				   
+				</c:forEach>  
+				 -->
+			</div>
+		</c:if>
     </div>
 		
 </div>

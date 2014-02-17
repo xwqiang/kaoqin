@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import com.lichuan.attendance.model.AdminUser;
 import com.lichuan.attendance.model.PersonStatistic;
 
 @Repository

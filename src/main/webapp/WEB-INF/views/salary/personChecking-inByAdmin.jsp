@@ -135,7 +135,10 @@
 							var selectdate = $.fullCalendar.formatDate(date, "yyyy-MM-dd");	
 							 $("#click_day").attr("value" , selectdate);
 							 $("#ui-id-1").html("人资备注，日期："+selectdate);
-							 $( "#dialog-form" ).dialog( "open" );
+							 if("${confirmRecords}"==""){
+								 
+							 	$( "#dialog-form" ).dialog( "open" );
+							 }
 
 						return true;
 				  },
@@ -480,11 +483,12 @@
             
             </c:if>
             <dt>饭补天数:</dt><dd>${statistic.fanbu_date_count }天</dd>
-        </dl>        
-        <div class="c-operate">
-		    <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a title="清空 员工：${user_name} 时间：${every_month } 人资处理数据" href="restoreByOnekey.do?every_month=${every_month }&oa=${oa}&user_name=${user_name}">一键重置</a></span></p>
-		</div>
-		
+        </dl>    
+        <c:if test="${empty confirmRecords }">    
+	        <div class="c-operate">
+			    <p><span class="c-button c-button-main" onClick="javascript:void(0);"><a title="清空 员工：${user_name} 时间：${every_month } 人资处理数据" href="restoreByOnekey.do?every_month=${every_month }&oa=${oa}&user_name=${user_name}">一键重置</a></span></p>
+			</div>
+		</c:if>
 		<div class="c-operate">
         	<span>入职时间：${personInfo.entry_time }</span>
         </div>

@@ -112,4 +112,8 @@ public class AdminUserService {
 
 	}
 
+	// 获取未确认考勤Admin_user列表
+		public List<AdminUser> getUnconfirmUsers(String every_month) {
+			return adminUserMapper.getUnconfirmUsers(every_month);
+		}
 }
