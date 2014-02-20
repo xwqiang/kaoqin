@@ -23,11 +23,19 @@ public class PersonStatistic{
 	private double overtime_count;//休息日加班
 	private double workdate_overtime_count;//工作日加班
 	private String confirm_time;
+	private int sequence;//排序
 	public String getConfirm_time() {
 		return confirm_time;
 	}
 	public void setConfirm_time(String confirm_time) {
 		this.confirm_time = confirm_time;
+	}
+	
+	public int getSequence() {
+		return sequence;
+	}
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 	public double getWorkdate_overtime_count() {
 		return workdate_overtime_count;

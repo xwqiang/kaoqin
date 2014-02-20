@@ -32,7 +32,7 @@ public class SSOLoginController {
 		ck.setAppId("kaoqin");
 		ck.setApp_pwd("kaoqin123");
 		ck.setInteractiveData(interactiveData);
-		ck.setTime_from_sso_server(sso_time);
+//		ck.setTime_from_sso_server(sso_time);
 		ck.setClient_time(String.valueOf(System.currentTimeMillis()));
 		ck.setUserId(emp_id);
 		ck.setSso_server_url("http://192.168.5.31:8081");
@@ -44,35 +44,35 @@ public class SSOLoginController {
 			if(adminUser!=null){
 				if(adminUser.getStatus()==1){
 
-					modelMap.addAttribute("message", "OAÕËºÅ²»ÄÜÎª¿Õ")
-					.addAttribute("ÓÃ»§ÒÑ¹Ø±Õ£¬ÇëÁªÏµ¹ÜÀíÔ±!")
+					modelMap.addAttribute("message", "OAï¿½ËºÅ²ï¿½ï¿½ï¿½Îªï¿½ï¿½")
+					.addAttribute("ï¿½Ã»ï¿½ï¿½Ñ¹Ø±Õ£ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½Ô±!")
 					.addAttribute("flag", 2);
 					return "login/message";
 
 				}else {
 
 					request.getSession().setAttribute("adminUser", adminUser);
-					//×°ÔØadminList
+					//×°ï¿½ï¿½adminList
 					List<AdminUser> adminList=adminUserService.getList();
 					request.getSession().setAttribute("adminList", adminList);
 				}
 			}else {
 				
-				modelMap.addAttribute("message", "OAÕËºÅ²»ÄÜÎª¿Õ")
-				.addAttribute("message", "¸ÃÏµÍ³ÕÒ²»µ½ÄúµÄÕË»§,ÇëÁªÏµ¹ÜÀíÔ±!")
+				modelMap.addAttribute("message", "OAï¿½ËºÅ²ï¿½ï¿½ï¿½Îªï¿½ï¿½")
+				.addAttribute("message", "ï¿½ï¿½ÏµÍ³ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë»ï¿½,ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½Ô±!")
 				.addAttribute("flag", 2);
 				return "login/message";
 			}
 		}else {
 			
-			modelMap.addAttribute("message", "OAÕËºÅ²»ÄÜÎª¿Õ")
-			.addAttribute("½»»¥Ê§°Ü£¬Çë¼ì²éÍøÂç!")
+			modelMap.addAttribute("message", "OAï¿½ËºÅ²ï¿½ï¿½ï¿½Îªï¿½ï¿½")
+			.addAttribute("ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!")
 			.addAttribute("flag", 2);
 			return "login/message";
 		}
 		String adminName = adminUser.getAdmin_name();
 		
-		if("Â½º£²è".equals(adminName)||"ÀîÊç½í".equals(adminName)){
+		if("Â½ï¿½ï¿½ï¿½ï¿½".equals(adminName)||"ï¿½ï¿½ï¿½ï¿½ï¿½".equals(adminName)){
 			
 			return "forward:/getPersonChecking-inByAdmin.do";
 
