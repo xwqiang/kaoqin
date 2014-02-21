@@ -32,7 +32,7 @@ public class SSOLoginController {
 		ck.setAppId("kaoqin");
 		ck.setApp_pwd("kaoqin123");
 		ck.setInteractiveData(interactiveData);
-//		ck.setTime_from_sso_server(sso_time);
+		ck.setTime_from_sso_server(sso_time);
 		ck.setClient_time(String.valueOf(System.currentTimeMillis()));
 		ck.setUserId(emp_id);
 		ck.setSso_server_url("http://192.168.5.31:8081");
@@ -44,35 +44,35 @@ public class SSOLoginController {
 			if(adminUser!=null){
 				if(adminUser.getStatus()==1){
 
-					modelMap.addAttribute("message", "OA�˺Ų���Ϊ��")
-					.addAttribute("�û��ѹرգ�����ϵ����Ա!")
+					modelMap.addAttribute("message", "OA账号不能为空")
+					.addAttribute("用户已关闭，请联系管理员!")
 					.addAttribute("flag", 2);
 					return "login/message";
 
 				}else {
 
 					request.getSession().setAttribute("adminUser", adminUser);
-					//װ��adminList
+					//装载adminList
 					List<AdminUser> adminList=adminUserService.getList();
 					request.getSession().setAttribute("adminList", adminList);
 				}
 			}else {
 				
-				modelMap.addAttribute("message", "OA�˺Ų���Ϊ��")
-				.addAttribute("message", "��ϵͳ�Ҳ�������˻�,����ϵ����Ա!")
+				modelMap.addAttribute("message", "OA账号不能为空")
+				.addAttribute("message", "该系统找不到您的账户,请联系管理员!")
 				.addAttribute("flag", 2);
 				return "login/message";
 			}
 		}else {
 			
-			modelMap.addAttribute("message", "OA�˺Ų���Ϊ��")
-			.addAttribute("����ʧ�ܣ���������!")
+			modelMap.addAttribute("message", "OA账号不能为空")
+			.addAttribute("交互失败，请检查网络!")
 			.addAttribute("flag", 2);
 			return "login/message";
 		}
 		String adminName = adminUser.getAdmin_name();
 		
-		if("½����".equals(adminName)||"�����".equals(adminName)){
+		if("陆海茶".equals(adminName)||"李淑巾".equals(adminName)){
 			
 			return "forward:/getPersonChecking-inByAdmin.do";
 
