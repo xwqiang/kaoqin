@@ -1,0 +1,3 @@
+1、2014-02-20 17:00 person_info表添加字段sequence 用于表示排序  
+	alter table person_info add column sequence int(11) default 0;
+	update person_info set sequence = sn;
