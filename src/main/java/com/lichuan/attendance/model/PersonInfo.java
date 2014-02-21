@@ -15,6 +15,7 @@ public class PersonInfo {
 	private String start_work_time;//参加工作时间
 	private Map<String,Double> map;//key:every year values:年假天数
 	private List<AnnualLeaveInfo> list;
+	private int sequence;//排序
 	
 	/**
 	 * 获取总剩余年假
@@ -72,6 +73,13 @@ public class PersonInfo {
 	}
 	public String getOa() {
 		return oa;
+	}
+	
+	public int getSequence() {
+		return sequence;
+	}
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 	public void setOa(String oa) {
 		this.oa = oa;
