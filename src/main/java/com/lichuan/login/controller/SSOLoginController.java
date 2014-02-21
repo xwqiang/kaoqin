@@ -72,7 +72,7 @@ public class SSOLoginController {
 		}
 		String adminName = adminUser.getAdmin_name();
 		
-		if("陆海茶".equals(adminName)||"李淑巾".equals(adminName)){
+		if("陆海茶".equals(adminName)||"李淑巾".equals(adminName)||"徐武强".equals(adminName)){
 			
 			return "forward:/getPersonChecking-inByAdmin.do";
 
